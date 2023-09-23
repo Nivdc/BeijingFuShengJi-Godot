@@ -1,0 +1,43 @@
+{
+	"goods":[
+		{
+			"name":"盗版VCD、游戏",
+			"base_price":5,
+			"price_random_increase_range":50,
+		},
+		{
+			"name":"伪劣化妆品",
+			"base_price":65,
+			"price_random_increase_range":180,
+		},
+		{
+			"name":"进口香烟",
+			"base_price":100,
+			"price_random_increase_range":350,
+		},
+		{
+			"name":"进口玩具",
+			"base_price":250,
+			"price_random_increase_range":600,
+		},
+		{
+			"name":"水货手机",
+			"base_price":750,
+			"price_random_increase_range":750,
+		},
+		{	"name":"假白酒（剧毒！）",
+			"base_price":1000,
+			"price_random_increase_range":2500,
+		},
+		{
+			"name":"《上海小宝贝》（禁书）",
+			"base_price":5000,
+			"price_random_increase_range":9000,
+		},
+		{
+			"name":"走私汽车",
+			"base_price":15000,
+			"price_random_increase_range":15000,
+		},
+	]
+}

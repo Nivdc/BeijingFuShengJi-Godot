@@ -1,0 +1,116 @@
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cicypc1i7ogw4"]
+
+[ext_resource type="FontFile" uid="uid://cw1gn6cyfowhy" path="res://resource/font/SourceHanSansSC-Regular.otf" id="1_554om"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xcjun"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_detail = 4
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7chra"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_detail = 4
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xx0hp"]
+content_margin_left = 20.0
+content_margin_top = 3.0
+content_margin_right = 20.0
+content_margin_bottom = 3.0
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftkp2"]
+content_margin_left = 20.0
+content_margin_top = 3.0
+content_margin_right = 20.0
+content_margin_bottom = 3.0
+bg_color = Color(0.898039, 0.952941, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.717647, 0.815686, 0.898039, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r560l"]
+content_margin_left = 20.0
+content_margin_top = 3.0
+content_margin_right = 20.0
+content_margin_bottom = 3.0
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0oa50"]
+content_margin_left = 20.0
+content_margin_top = 3.0
+content_margin_right = 20.0
+content_margin_bottom = 3.0
+bg_color = Color(0.8, 0.909804, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.666667, 0.85098, 1, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0l5fl"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mj2j6"]
+bg_color = Color(0.568627, 0.788235, 0.968627, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cksdf"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.94902, 0.94902, 0.94902, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+shadow_size = 2
+shadow_offset = Vector2(2, 2)
+
+[resource]
+default_font = ExtResource("1_554om")
+Button/colors/font_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Button/colors/font_focus_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Button/colors/font_hover_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Button/colors/font_hover_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Button/colors/font_outline_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Button/colors/font_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Button/font_sizes/font_size = 19
+Button/styles/hover = SubResource("StyleBoxFlat_xcjun")
+Button/styles/normal = SubResource("StyleBoxFlat_xcjun")
+Button/styles/pressed = SubResource("StyleBoxFlat_7chra")
+Label/colors/font_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Label/constants/line_spacing = -10
+Label/font_sizes/font_size = 19
+MenuBar/colors/font_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+MenuBar/colors/font_focus_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+MenuBar/colors/font_hover_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+MenuBar/colors/font_hover_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+MenuBar/colors/font_outline_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+MenuBar/colors/font_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+MenuBar/styles/focus = SubResource("StyleBoxFlat_xx0hp")
+MenuBar/styles/hover = SubResource("StyleBoxFlat_ftkp2")
+MenuBar/styles/normal = SubResource("StyleBoxFlat_r560l")
+MenuBar/styles/pressed = SubResource("StyleBoxFlat_0oa50")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_0l5fl")
+PopupMenu/colors/font_color = Color(0, 0, 0, 1)
+PopupMenu/colors/font_hover_color = Color(0, 0, 0, 1)
+PopupMenu/constants/item_end_padding = 20
+PopupMenu/constants/item_start_padding = 20
+PopupMenu/constants/v_separation = 10
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_mj2j6")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_cksdf")
