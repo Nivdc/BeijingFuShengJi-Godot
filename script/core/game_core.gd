@@ -57,6 +57,7 @@ func reduce_reputation(change: int):
 	player_status["health"] = rep-change if rep-change > 0 else 0
 
 func add_good(good_name:String, number:int, record_price:=-1):
+	assert(_verify_good_name(good_name) == true, "Warning: Try to add undefined good.")
 	assert(_calculate_used_storage()+number <= player_status["storage_size"], "Warning: Adding good exceeds storage limit.")
 	if record_price == -1:# 未输入价格，系统计算价格
 		pass
@@ -79,6 +80,7 @@ func add_good(good_name:String, number:int, record_price:=-1):
 		player_status["storage"][good_name]["record_price"] = new_record_price
 
 func reduce_good(good_name:String, number:int):
+	assert(_verify_good_name(good_name) == true, "Warning: Try to add undefined good.")
 	assert(player_status["storage"].has(good_name) == true, "Warning: Try to reduce non-existent good.")
 	player_status["storage"][good_name]["number"] -= number
 
@@ -90,9 +92,8 @@ func _init(onwer: Node):
 	_init_global_variables()
 	print("environment_settings : \n", str(environment_settings).replace(", \"", ",\n  \""))
 	add_good("进口香烟",2,2)
-	add_good("进口香烟",1,1)
-	reduce_good("进口香烟",1)
-	reduce_good("不存在的东西",1)
+	add_good("进口香烟aa",1,1)
+	reduce_good("进口香烟aa",1)
 	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
 
 func _init_load_data():
@@ -125,3 +126,9 @@ func _calculate_used_storage() -> int:
 		for good_name in player_status["storage"]:
 			used_size += player_status["storage"][good_name]["number"]
 		return used_size
+
+func _verify_good_name(good_name: String) ->bool:
+	for good in goods_list:
+		if good["name"] == good_name:
+			return true
+	return false
