@@ -80,7 +80,7 @@ func add_good(good_name:String, number:int, record_price:=-1):
 		player_status["storage"][good_name]["record_price"] = new_record_price
 
 func reduce_good(good_name:String, number:int):
-	assert(_verify_good_name(good_name) == true, "Warning: Try to add undefined good.")
+	assert(_verify_good_name(good_name) == true, "Warning: Try to reduce undefined good.")
 	assert(player_status["storage"].has(good_name) == true, "Warning: Try to reduce non-existent good.")
 	player_status["storage"][good_name]["number"] -= number
 
