@@ -75,7 +75,7 @@ func add_good(good_name:String, number:int, record_price:=-1):
 		# 重新计算物品买入价格，调整为均价
 		var owned_good_total_price = player_status["storage"][good_name]["number"] * player_status["storage"][good_name]["record_price"]
 		var new_good_total_price = number * record_price
-		# 原版游戏也同样截断了小数点（SelectionDlg.cpp 802行）,因此我们在此也不做特殊的处理。
+		# 原版游戏也同样截断了小数点（SelectionDlg.cpp 802行）,因此我们在此也不做其他的处理。
 		var new_record_price = (owned_good_total_price + new_good_total_price)/new_number
 		player_status["storage"][good_name]["number"] = new_number
 		player_status["storage"][good_name]["record_price"] = new_record_price
@@ -111,12 +111,11 @@ func _init(onwer: Node):
 	_onwer.get_window().set_title("北京浮生记 ( 0/40 ) ")
 	_init_load_data()
 	_init_global_variables()
-	_generate_goods_prices()
-	print("environment_settings : \n", str(environment_settings).replace(", \"", ",\n  \""))
-	add_good("进口香烟",2)
-	reduce_good("进口香烟",1)
-	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
-	#print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
+	#print("environment_settings : \n", str(environment_settings).replace(", \"", ",\n  \""))
+	#add_good("进口香烟",2)
+	#reduce_good("进口香烟",1)
+	#print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+	print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
 
 func _init_load_data():
 	# 加载初始化信息
@@ -129,6 +128,7 @@ func _init_load_data():
 	assert(FileAccess.file_exists("res://game_data.json") == true, "File does not exist -> game_data.json.")
 	var game_data_file = FileAccess.open("res://game_data.json", FileAccess.READ)
 	var game_data = JSON.parse_string(game_data_file.get_as_text())
+	game_data_file.close()
 	goods_list = game_data["goods"]
 
 func _load_config_section(config:ConfigFile, section:String, cache:Dictionary):
@@ -139,12 +139,15 @@ func _load_config_section(config:ConfigFile, section:String, cache:Dictionary):
 func _init_global_variables():
 	player_status["elapsed_time"] = 0
 	player_status["storage"] = {}
+	player_status["current_location"] = ""
+	_generate_goods_prices()
+	_generate_all_good_active_state(3)
 
 func _calculate_used_storage() -> int:
-	var used_size := 0
 	if player_status["storage"].is_empty() == true:
-		return used_size
+		return 0
 	else:
+		var used_size := 0
 		for good_name in player_status["storage"]:
 			used_size += player_status["storage"][good_name]["number"]
 		return used_size
@@ -159,8 +162,25 @@ func _generate_goods_prices():
 	for good in goods_list:
 		good["price"] = good["base_price"] + _random_number(good["price_random_increase_range"])
 
+func _set_all_goods_active_state(active_state: bool):
+	for good in goods_list:
+		good["is_active"] = active_state
+
+# 生成一个范围在[0,max_value)内随机数。
 func _random_number(max_value: int) ->int:
 	return randi() % max_value
+
+# 随机禁用商品，参数是尝试次数。
+# 显然，在多次抽中同一商品的情况下，禁用的商品数会少于尝试次数。
+# 但是原版的逻辑就是这样的（SelectionDlg.cpp 1200行），我也懒得改了。
+func _random_deactivate_goods(number_of_attempts: int):
+	for i in range(number_of_attempts):
+		goods_list[_random_number(goods_list.size())]["is_active"] = false
+
+# 生成所有商品的活跃状态，先全部激活，再随机禁用几个。参数是尝试次数。
+func _generate_all_good_active_state(number_of_attempts: int):
+	_set_all_goods_active_state(true)
+	_random_deactivate_goods(number_of_attempts)
 
 func _get_good_price(good_name: String) -> int:
 	assert(_verify_good_name(good_name) == true, "Warning: Try to get undefined good price.")
@@ -168,5 +188,6 @@ func _get_good_price(good_name: String) -> int:
 		if good["name"] == good_name:
 			assert(good.has("price") == true, "Warning: %s has no price yet." % good["name"])
 			return good["price"]
+	# 为了满足编辑器检查返回值，添加如下行，它们永远不该执行。
 	assert(false, "Error: function _get_good_price error.")
 	return -2

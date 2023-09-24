@@ -6,6 +6,7 @@ signal game_started
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()#初始化随机数种子
 	self.connect("game_started",func():print("hello,world"))
 	pass # Replace with function body.
 
