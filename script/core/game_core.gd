@@ -28,6 +28,7 @@ func add_cash(change: int):
 	player_status["cash"] += change
 
 func reduce_cash(change: int):
+	assert(player_status["cash"] - change >= 0, "Warning: Trying to reduce cash below 0.")
 	player_status["cash"] -= change
 
 func set_bank_deposit_amount(value: int):
@@ -60,7 +61,7 @@ func add_good(good_name:String, number:int, record_price:=-1):
 	assert(_verify_good_name(good_name) == true, "Warning: Try to add undefined good.")
 	assert(_calculate_used_storage()+number <= player_status["storage_size"], "Warning: Adding good exceeds storage limit.")
 	if record_price == -1:# 未输入价格，系统计算价格
-		pass
+		record_price = _get_good_price(good_name)
 
 	# 如果玩家还没有这个物品
 	if player_status["storage"].has(good_name) != true:
@@ -87,6 +88,21 @@ func reduce_good(good_name:String, number:int):
 	if player_status["storage"][good_name]["number"] == 0:
 		player_status["storage"].erase(good_name)
 
+func buy_good(good_name:String, number:int, price:=-1):
+	if price == -1:# 未输入价格，系统计算价格
+		price = _get_good_price(good_name)
+	
+	var total_price = number * price
+	assert(player_status["cash"] >= total_price, "Warning: The player does not have enough cash to purchase the %s." % good_name)
+	reduce_cash(total_price)
+	add_good(good_name, number, price)
+
+func sell_good(good_name:String, number:int):
+	var price = _get_good_price(good_name)
+	var total_sell_price = number * price
+	reduce_good(good_name, number)
+	add_cash(total_sell_price)
+
 func move():
 	pass
 
@@ -95,10 +111,12 @@ func _init(onwer: Node):
 	_onwer.get_window().set_title("北京浮生记 ( 0/40 ) ")
 	_init_load_data()
 	_init_global_variables()
+	_generate_goods_prices()
 	print("environment_settings : \n", str(environment_settings).replace(", \"", ",\n  \""))
-	add_good("进口香烟",2,2)
+	add_good("进口香烟",2)
 	reduce_good("进口香烟",1)
 	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+	#print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
 
 func _init_load_data():
 	# 加载初始化信息
@@ -136,3 +154,19 @@ func _verify_good_name(good_name: String) ->bool:
 		if good["name"] == good_name:
 			return true
 	return false
+
+func _generate_goods_prices():
+	for good in goods_list:
+		good["price"] = good["base_price"] + _random_number(good["price_random_increase_range"])
+
+func _random_number(max_value: int) ->int:
+	return randi() % max_value
+
+func _get_good_price(good_name: String) -> int:
+	assert(_verify_good_name(good_name) == true, "Warning: Try to get undefined good price.")
+	for good in goods_list:
+		if good["name"] == good_name:
+			assert(good.has("price") == true, "Warning: %s has no price yet." % good["name"])
+			return good["price"]
+	assert(false, "Error: function _get_good_price error.")
+	return -2
