@@ -30,7 +30,7 @@ func add_cash(change: int):
 	player_status["cash"] += change
 
 func reduce_cash(change: int):
-	assert(player_status["cash"] - change >= 0, "Warning: Trying to reduce cash below 0.")
+	assert(player_status["cash"] - change >= 0, "Error: Trying to reduce cash below 0.")
 	player_status["cash"] -= change
 
 func set_bank_deposit_amount(value: int):
@@ -41,7 +41,7 @@ func set_debt_amount(value: int):
 
 # 我错了...我真滴错了，手贱加什么最大值啊，直接脚本里写死不就好了。
 func add_health(change: int):
-	assert(player_status["health"]>0, "Warning: Health still increases after death.")
+	assert(player_status["health"]>0, "Error: Health still increases after death.")
 	var hp     = player_status["health"]
 	var max_hp = player_status["max_health"]
 	player_status["health"] = hp+change if hp+change < max_hp else max_hp
@@ -60,7 +60,7 @@ func reduce_reputation(change: int):
 	player_status["health"] = rep-change if rep-change > 0 else 0
 
 func add_good_directly(good_name:String, number:int, record_price:=-1):
-	assert(_verify_good_name(good_name) == true, "Warning: Try to add undefined good.")
+	assert(_verify_good_name(good_name) == true, "Error: Try to add undefined good.")
 	if record_price == -1:# 未输入价格，系统计算价格
 		record_price = _get_good_price(good_name)
 
@@ -86,25 +86,26 @@ func add_good(good_name:String, number:int, record_price:=-1):
 		add_good_directly(good_name, number, record_price)
 
 func reduce_good(good_name:String, number:int):
-	assert(_verify_good_name(good_name) == true, "Warning: Try to reduce undefined good.")
-	assert(player_status["storage"].has(good_name) == true, "Warning: Try to reduce non-existent good.")
-	assert(player_status["storage"][good_name]["number"] - number >= 0, "Warning: Try to reduce good number below 0.")
+	assert(_verify_good_name(good_name) == true, "Error: Try to reduce undefined good.")
+	assert(player_status["storage"].has(good_name) == true, "Error: Try to reduce non-existent good.")
+	assert(player_status["storage"][good_name]["number"] - number >= 0, "Error: Try to reduce good number below 0.")
 	player_status["storage"][good_name]["number"] -= number
 	if player_status["storage"][good_name]["number"] == 0:
 		player_status["storage"].erase(good_name)
 
 func buy_good(good_name:String, number:int, price:=-1):
-	assert(_verify_good_name(good_name) == true, "Warning: Try to buy undefined good.")
+	assert(_verify_good_name(good_name) == true, "Error: Try to buy undefined good.")
 	if price == -1:# 未输入价格，系统计算价格
 		price = _get_good_price(good_name)
 	
 	var total_price = number * price
+	assert(_calculate_used_storage()+number <= player_status["storage_size"], "Warning: Add good exceeds storage limit.")
 	assert(player_status["cash"] >= total_price, "Warning: The player does not have enough cash to purchase the %s." % good_name)
 	reduce_cash(total_price)
 	add_good(good_name, number, price)
 
 func sell_good(good_name:String, number:int):
-	assert(_verify_good_name(good_name) == true, "Warning: Try to sell undefined good.")
+	assert(_verify_good_name(good_name) == true, "Error: Try to sell undefined good.")
 	var price = _get_good_price(good_name)
 	var total_sell_price = number * price
 	reduce_good(good_name, number)
@@ -122,8 +123,9 @@ func move(new_location: String):
 		return
 
 	player_status["current_location"] = new_location
-	# 最后一天，让所有物品可交易
+	# 计算剩余时间
 	var time_left = environment_settings["time_limit"] - player_status["elapsed_time"]
+	# 如果是最后一天，就让所有物品可交易
 	_regenerate_all_goods_status(3) if time_left != 1 else _regenerate_all_goods_status(0)
 	_handle_debts_and_deposits()
 	#_random_activate_events()
@@ -140,17 +142,22 @@ func move(new_location: String):
 		print("俺已经在北京40天了，该回去结婚去了。")
 		if player_status["storage"].is_empty() != true:
 			var remaining_goods_list = []
-			for good_name in player_status["storage"]:
+			print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+			for good_name in player_status["storage"].keys():
 				remaining_goods_list.append(good_name)
 				sell_good(good_name, player_status["storage"][good_name]["number"])
-			print("系统替我卖了剩余货物: %s" % remaining_goods_list.join(", "))
+			print("系统替我卖了剩余货物: %s 。" % ", ".join(remaining_goods_list))
 		_game_over()
+		return
 	
 	player_status["elapsed_time"] += 1
 	_set_main_window_title("北京浮生记 ( %s/%s ) "% [player_status["elapsed_time"], environment_settings["time_limit"]])
 
+func restart_game():
+	_init(_onwer)
 
 func _init(onwer: Node):
+	assert(_game_state != GAME_RUNNING, "Error: call _init function while game is running")
 	_onwer = onwer
 	_init_load_data()
 	_init_global_variables()
@@ -163,6 +170,8 @@ func _init(onwer: Node):
 	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
 	# print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
 	move("somewhere")
+	buy_good("进口香烟",1)
+	buy_good("伪劣化妆品",1)
 	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
 	# print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
 	for i in range(100):
