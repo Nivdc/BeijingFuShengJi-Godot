@@ -1,10 +1,12 @@
 class_name GameCore
 extends RefCounted
 
+enum {GAME_RUNNING, GAME_OVER}
 var environment_settings = {}
 var player_status = {}
 var goods_list = {}
 var _onwer = null
+var _game_state = null
 
 # 下面这个console的实现无法调用内部的变量，可能是我没有找到正确的用法，
 # 姑且将其保留，后面再研究下，我先看看 Expression 能不能做到类似的功能。
@@ -57,9 +59,8 @@ func reduce_reputation(change: int):
 	var rep     = player_status["reputation"]
 	player_status["health"] = rep-change if rep-change > 0 else 0
 
-func add_good(good_name:String, number:int, record_price:=-1):
+func add_good_directly(good_name:String, number:int, record_price:=-1):
 	assert(_verify_good_name(good_name) == true, "Warning: Try to add undefined good.")
-	assert(_calculate_used_storage()+number <= player_status["storage_size"], "Warning: Adding good exceeds storage limit.")
 	if record_price == -1:# 未输入价格，系统计算价格
 		record_price = _get_good_price(good_name)
 
@@ -80,15 +81,20 @@ func add_good(good_name:String, number:int, record_price:=-1):
 		player_status["storage"][good_name]["number"] = new_number
 		player_status["storage"][good_name]["record_price"] = new_record_price
 
+func add_good(good_name:String, number:int, record_price:=-1):
+		assert(_calculate_used_storage()+number <= player_status["storage_size"], "Warning: Add good exceeds storage limit.")
+		add_good_directly(good_name, number, record_price)
+
 func reduce_good(good_name:String, number:int):
 	assert(_verify_good_name(good_name) == true, "Warning: Try to reduce undefined good.")
 	assert(player_status["storage"].has(good_name) == true, "Warning: Try to reduce non-existent good.")
-	assert(player_status["storage"][good_name]["number"] - number >= 0, "Warning: Trying to reduce good number below 0.")
+	assert(player_status["storage"][good_name]["number"] - number >= 0, "Warning: Try to reduce good number below 0.")
 	player_status["storage"][good_name]["number"] -= number
 	if player_status["storage"][good_name]["number"] == 0:
 		player_status["storage"].erase(good_name)
 
 func buy_good(good_name:String, number:int, price:=-1):
+	assert(_verify_good_name(good_name) == true, "Warning: Try to buy undefined good.")
 	if price == -1:# 未输入价格，系统计算价格
 		price = _get_good_price(good_name)
 	
@@ -98,24 +104,70 @@ func buy_good(good_name:String, number:int, price:=-1):
 	add_good(good_name, number, price)
 
 func sell_good(good_name:String, number:int):
+	assert(_verify_good_name(good_name) == true, "Warning: Try to sell undefined good.")
 	var price = _get_good_price(good_name)
 	var total_sell_price = number * price
 	reduce_good(good_name, number)
 	add_cash(total_sell_price)
 
-func move():
-	pass
+
+# 这可能是整个游戏中最重要的函数。
+# 注意，整个游戏模式其实并不关心玩家处的位置到底在哪里，
+# 只是在合成某些提示的时候会用到这个位置。
+func move(new_location: String):
+	if _game_state == GAME_OVER:
+		return
+
+	if new_location == player_status["current_location"]:
+		return
+
+	player_status["current_location"] = new_location
+	# 最后一天，让所有物品可交易
+	var time_left = environment_settings["time_limit"] - player_status["elapsed_time"]
+	_regenerate_all_goods_status(3) if time_left != 1 else _regenerate_all_goods_status(0)
+	_handle_debts_and_deposits()
+	#_random_activate_events()
+	#_health_check()
+
+	if player_status["debt_amount"] > 100000:
+		print("俺欠钱太多，村长叫一群老乡揍了俺一顿!")
+		reduce_health(30)
+
+	if time_left == 1:
+		print("俺明天回家乡，快把全部货物卖掉。")
+	
+	if time_left == 0:
+		print("俺已经在北京40天了，该回去结婚去了。")
+		if player_status["storage"].is_empty() != true:
+			var remaining_goods_list = []
+			for good_name in player_status["storage"]:
+				remaining_goods_list.append(good_name)
+				sell_good(good_name, player_status["storage"][good_name]["number"])
+			print("系统替我卖了剩余货物: %s" % remaining_goods_list.join(", "))
+		_game_over()
+	
+	player_status["elapsed_time"] += 1
+	_set_main_window_title("北京浮生记 ( %s/%s ) "% [player_status["elapsed_time"], environment_settings["time_limit"]])
+
 
 func _init(onwer: Node):
 	_onwer = onwer
-	_onwer.get_window().set_title("北京浮生记 ( 0/40 ) ")
 	_init_load_data()
 	_init_global_variables()
+	_set_main_window_title("北京浮生记 ( %s/%s ) "% [player_status["elapsed_time"], environment_settings["time_limit"]])
+	_game_state = GAME_RUNNING
+	#下面是一些测试函数...不要在意。
 	#print("environment_settings : \n", str(environment_settings).replace(", \"", ",\n  \""))
 	#add_good("进口香烟",2)
 	#reduce_good("进口香烟",1)
-	#print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
-	print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
+	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+	# print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
+	move("somewhere")
+	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+	# print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
+	for i in range(100):
+		move("%s"%i)
+	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
 
 func _init_load_data():
 	# 加载初始化信息
@@ -140,8 +192,7 @@ func _init_global_variables():
 	player_status["elapsed_time"] = 0
 	player_status["storage"] = {}
 	player_status["current_location"] = ""
-	_generate_goods_prices()
-	_generate_all_good_active_state(3)
+	_regenerate_all_goods_status(3)
 
 func _calculate_used_storage() -> int:
 	if player_status["storage"].is_empty() == true:
@@ -158,7 +209,7 @@ func _verify_good_name(good_name: String) ->bool:
 			return true
 	return false
 
-func _generate_goods_prices():
+func _generate_all_goods_prices():
 	for good in goods_list:
 		good["price"] = good["base_price"] + _random_number(good["price_random_increase_range"])
 
@@ -177,10 +228,11 @@ func _random_deactivate_goods(number_of_attempts: int):
 	for i in range(number_of_attempts):
 		goods_list[_random_number(goods_list.size())]["is_active"] = false
 
-# 生成所有商品的活跃状态，先全部激活，再随机禁用几个。参数是尝试次数。
-func _generate_all_good_active_state(number_of_attempts: int):
+# 重新生成所有商品的状态，先全部激活，再随机禁用几个。参数是随机禁用的尝试次数。
+func _regenerate_all_goods_status(number_of_attempts: int):
 	_set_all_goods_active_state(true)
 	_random_deactivate_goods(number_of_attempts)
+	_generate_all_goods_prices()
 
 func _get_good_price(good_name: String) -> int:
 	assert(_verify_good_name(good_name) == true, "Warning: Try to get undefined good price.")
@@ -188,6 +240,17 @@ func _get_good_price(good_name: String) -> int:
 		if good["name"] == good_name:
 			assert(good.has("price") == true, "Warning: %s has no price yet." % good["name"])
 			return good["price"]
-	# 为了满足编辑器检查返回值，添加如下行，它们永远不该执行。
+	# 为了满足编辑器返回值检查，添加如下行，它们永远不该执行。
 	assert(false, "Error: function _get_good_price error.")
 	return -2
+
+func _handle_debts_and_deposits():
+	player_status["debt_amount"] += convert(player_status["debt_amount"] * environment_settings["debt_interest_rate"], TYPE_INT)
+	player_status["bank_deposit_amount"] += convert(player_status["bank_deposit_amount"] * environment_settings["deposit_interest_rate"], TYPE_INT)
+
+func _set_main_window_title(title: String):
+	_onwer.get_window().set_title(title)
+
+func _game_over():
+	_game_state = GAME_OVER
+	print("游戏已结束")
