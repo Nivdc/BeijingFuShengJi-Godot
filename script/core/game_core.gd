@@ -81,9 +81,14 @@ func add_good_directly(good_name:String, number:int, record_price:=-1):
 		player_status["storage"][good_name]["number"] = new_number
 		player_status["storage"][good_name]["record_price"] = new_record_price
 
+
+# 有些事件会使用这个函数，所以要检测两次。
 func add_good(good_name:String, number:int, record_price:=-1):
-		assert(_calculate_used_storage()+number <= player_status["storage_size"], "Warning: Add good exceeds storage limit.")
-		add_good_directly(good_name, number, record_price)
+	if _calculate_used_storage()+number > player_status["storage_size"]:
+		print("好可惜!俺租的房子太小，只能放%d个物品。" % player_status["storage_size"])
+		return
+
+	add_good_directly(good_name, number, record_price)
 
 func reduce_good(good_name:String, number:int):
 	assert(_verify_good_name(good_name) == true, "Error: Try to reduce undefined good.")
@@ -93,19 +98,41 @@ func reduce_good(good_name:String, number:int):
 	if player_status["storage"][good_name]["number"] == 0:
 		player_status["storage"].erase(good_name)
 
+
 func buy_good(good_name:String, number:int, price:=-1):
 	assert(_verify_good_name(good_name) == true, "Error: Try to buy undefined good.")
+
+	if _check_good_is_active(good_name) == false:
+		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
+		return
+	
+	if _calculate_used_storage()+number > player_status["storage_size"]:
+		print("好可惜!俺租的房子太小，只能放%d个物品。租更大的房子?" % player_status["storage_size"])
+		return
+	
 	if price == -1:# 未输入价格，系统计算价格
 		price = _get_good_price(good_name)
 	
 	var total_price = number * price
-	assert(_calculate_used_storage()+number <= player_status["storage_size"], "Warning: Add good exceeds storage limit.")
-	assert(player_status["cash"] >= total_price, "Warning: The player does not have enough cash to purchase the %s." % good_name)
+
+	if total_price > player_status["cash"]:
+		if player_status["bank_deposit_amount"] > 0:
+			print("俺带的现金不够，去银行提点钱吧。")
+		else:
+			print("俺的现金不够，银行又没有存款，咋办哩?")		
+		return
+	
 	reduce_cash(total_price)
 	add_good(good_name, number, price)
 
+
 func sell_good(good_name:String, number:int):
 	assert(_verify_good_name(good_name) == true, "Error: Try to sell undefined good.")
+
+	if _check_good_is_active(good_name) == false:
+		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
+		return
+	
 	var price = _get_good_price(good_name)
 	var total_sell_price = number * price
 	reduce_good(good_name, number)
@@ -113,7 +140,7 @@ func sell_good(good_name:String, number:int):
 
 
 # 这可能是整个游戏中最重要的函数。
-# 注意，整个游戏模式其实并不关心玩家处的位置到底在哪里，
+# 注意，整个游戏模式其实并不关心玩家的具体位置，
 # 只是在合成某些提示的时候会用到这个位置。
 func move(new_location: String):
 	if _game_state == GAME_OVER:
@@ -125,13 +152,13 @@ func move(new_location: String):
 	player_status["current_location"] = new_location
 	# 计算剩余时间
 	var time_left = environment_settings["time_limit"] - player_status["elapsed_time"]
-	# 如果是最后一天，就让所有物品可交易
-	_regenerate_all_goods_status(3) if time_left != 1 else _regenerate_all_goods_status(0)
+	# 如果不是最后两天，就随机禁用3~1种商品
+	_regenerate_all_goods_status(3) if time_left > 1 else _regenerate_all_goods_status(0)
 	_handle_debts_and_deposits()
 	#_random_activate_events()
 	#_health_check()
 
-	if player_status["debt_amount"] > 100000:
+	if player_status["debt_amount"] > 100_000:
 		print("俺欠钱太多，村长叫一群老乡揍了俺一顿!")
 		reduce_health(30)
 
@@ -146,7 +173,7 @@ func move(new_location: String):
 			for good_name in player_status["storage"].keys():
 				remaining_goods_list.append(good_name)
 				sell_good(good_name, player_status["storage"][good_name]["number"])
-			print("系统替我卖了剩余货物: %s 。" % ", ".join(remaining_goods_list))
+			print("系统替我卖了剩余货物: %s。" % ", ".join(remaining_goods_list))
 		_game_over()
 		return
 	
@@ -252,6 +279,16 @@ func _get_good_price(good_name: String) -> int:
 	# 为了满足编辑器返回值检查，添加如下行，它们永远不该执行。
 	assert(false, "Error: function _get_good_price error.")
 	return -2
+
+func _check_good_is_active(good_name: String) -> bool:
+	assert(_verify_good_name(good_name) == true, "Warning: Try to get undefined good price.")
+	for good in goods_list:
+		if good["name"] == good_name:
+			assert(good.has("is_active") == true, "Warning: %s has no is_active yet." % good["name"])
+			return good["is_active"]
+	# 为了满足编辑器返回值检查，添加如下行，它们永远不该执行。
+	assert(false, "Error: function _check_good_is_active error.")
+	return false
 
 func _handle_debts_and_deposits():
 	player_status["debt_amount"] += convert(player_status["debt_amount"] * environment_settings["debt_interest_rate"], TYPE_INT)
