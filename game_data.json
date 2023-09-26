@@ -238,5 +238,49 @@
 			"effect":"reduce_health_with_notice(1)",
 			"sound":"breath.wav",
 		},
+
+
+		{
+			"type":"steal",
+			"frequency":60,
+			"message":"俺怜悯地铁口扮演成乞丐的老太太。",
+			"effect":"reduce_cash_by_percentage_with_notice(10)",
+		},
+		{
+			"type":"steal",
+			"frequency":125,
+			"message":"一个汉子在街头拦住俺：“哥们，给点钱用!",
+			"effect":"reduce_cash_by_percentage_with_notice(10)",
+		},
+		{
+			"type":"steal",
+			"frequency":100,
+			"message":"一个大个子碰了俺一下，说：“别挤了!”。",
+			"effect":"reduce_cash_by_percentage_with_notice(40)",
+		},
+		{
+			"type":"steal",
+			"frequency":65,
+			"message":"三个带红袖章的老太太揪住俺：“你是外地人?罚款!”",
+			"effect":"reduce_cash_by_percentage_with_notice(20)",
+		},
+		{
+			"type":"steal",
+			"frequency":35,
+			"message":"两个猛男揪住俺：“交长话附加费、上网费。”",
+			"effect":"reduce_bank_deposit_amount_by_percentage_with_notice(15)",
+		},
+		{
+			"type":"steal",
+			"frequency":27,
+			"message":"副主任说：“办经商证?晚上不要去我家给我送钱哦。”",
+			"effect":"reduce_bank_deposit_amount_by_percentage_with_notice(10)",
+		},
+		{
+			"type":"steal",
+			"frequency":40,
+			"message":"北京空气污染得厉害,俺去氧吧吸氧...",
+			"effect":"reduce_cash_by_percentage_with_notice(5)",
+		},
 	]
 }

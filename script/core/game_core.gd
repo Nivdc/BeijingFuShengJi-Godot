@@ -34,9 +34,9 @@ func reduce_cash(change: int):
 	assert(player_status["cash"] - change >= 0, "Error: Trying to reduce cash below 0.")
 	player_status["cash"] -= change
 
-func reduce_cash_by_percentage_with_notice(percentage: float):
-	player_status["cash"] -= convert(player_status["cash"] * percentage, TYPE_INT)
-	print("俺的银子减少了%d%%。" % (percentage*100))
+func reduce_cash_by_percentage_with_notice(percentage: int):
+	player_status["cash"] -= convert(player_status["cash"] * (percentage * 0.01), TYPE_INT)
+	print("俺的银子减少了%d%%。" % percentage)
 
 func add_bank_deposit_amount(change: int):
 	player_status["bank_deposit_amount"] += change
@@ -44,6 +44,11 @@ func add_bank_deposit_amount(change: int):
 func reduce_bank_deposit_amount(change: int):
 	assert(player_status["bank_deposit_amount"] - change >= 0, "Error: Trying to reduce bank_deposit_amount below 0.")
 	player_status["bank_deposit_amount"] -= change
+
+#......它为什么这么长？
+func reduce_bank_deposit_amount_by_percentage_with_notice(percentage: int):
+	player_status["bank_deposit_amount"] -= convert(player_status["bank_deposit_amount"] * (percentage * 0.01), TYPE_INT)
+	print("俺的存款减少了%d%%，哎呀！" % percentage)
 
 func add_debt_amount(change: int):
 	player_status["debt_amount"] += change
