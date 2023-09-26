@@ -34,8 +34,9 @@ func reduce_cash(change: int):
 	assert(player_status["cash"] - change >= 0, "Error: Trying to reduce cash below 0.")
 	player_status["cash"] -= change
 
-func reduce_cash_by_percentage(percentage: float):
+func reduce_cash_by_percentage_with_notice(percentage: float):
 	player_status["cash"] -= convert(player_status["cash"] * percentage, TYPE_INT)
+	print("俺的银子减少了%d%%。" % (percentage*100))
 
 func add_bank_deposit_amount(change: int):
 	player_status["bank_deposit_amount"] += change
@@ -62,6 +63,11 @@ func reduce_health(change: int):
 	var hp = player_status["health"]
 	player_status["health"] = hp-change if hp-change > 0 else 0
 
+func reduce_health_with_notice(change: int):
+	var hp = player_status["health"]
+	player_status["health"] = hp-change if hp-change > 0 else 0
+	print("俺的健康减少了%d点。" % change)
+
 func add_reputation(change: int):
 	var rep     = player_status["reputation"]
 	var max_rep = environment_settings["max_reputation"]
@@ -75,6 +81,31 @@ func add_storage_size(change: int):
 	assert(player_status["storage_size"] + change <= environment_settings["max_storage_size"], "Error: Try add storage_size beyond the upper limit.")
 	player_status["storage_size"] += change
 
+# 这个函数不进行储藏空间检查
+func add_good_directly(good_name:String, number:int, record_price:=-1):
+	assert(_verify_good_name(good_name) == true, "Error: Try to add undefined good.")
+	if record_price == -1:# 未输入价格，系统计算价格
+		record_price = _get_good_price(good_name)
+
+	# 如果玩家还没有这个物品
+	if player_status["storage"].has(good_name) != true:
+		player_status["storage"][good_name] = {
+			"number":number,
+			"record_price":record_price,
+		}
+	# 如果玩家已经有了这个物品
+	else:
+		var new_number = player_status["storage"][good_name]["number"] + number
+		# 重新计算物品买入价格，调整为均价
+		var owned_good_total_price = player_status["storage"][good_name]["number"] * player_status["storage"][good_name]["record_price"]
+		var new_good_total_price = number * record_price
+		# 原版游戏也同样截断了小数点（SelectionDlg.cpp 802行）,因此我们在此也不做其他的处理。
+		var new_record_price = (owned_good_total_price + new_good_total_price)/new_number
+		player_status["storage"][good_name]["number"] = new_number
+		player_status["storage"][good_name]["record_price"] = new_record_price
+	# 重新计算已用储藏空间
+	player_status["used_storage_size"] = _calculate_used_storage_size()
+
 
 # 有些事件会直接使用这个函数，所以要检测两次。
 func add_good(good_name:String, number:int, record_price:=-1):
@@ -82,7 +113,7 @@ func add_good(good_name:String, number:int, record_price:=-1):
 		print("好可惜!俺租的房子太小，只能放%d个物品。" % player_status["storage_size"])
 		return
 
-	_add_good_directly(good_name, number, record_price)
+	add_good_directly(good_name, number, record_price)
 
 
 func reduce_good(good_name:String, number:int):
@@ -183,7 +214,7 @@ func _set_good_price_as_price_multiple(good_name: String, multiple_value: int):
 		if good["name"] == good_name:
 			good["price"] *= multiple_value
 
-# 有没有好兄弟教教我英语啊...
+# 有没有好兄弟教教我英语啊...这么拼对吗？
 func _set_good_price_as_price_divisor(good_name: String, divisor_value: int):
 	assert(_verify_good_name(good_name) == true, "Error: _set_good_price_as_price_divisor try to access undefined good.")
 	for good in goods_list:
@@ -359,27 +390,3 @@ func _set_main_window_title(title: String):
 func _game_over():
 	_game_state = GAME_OVER
 	print("游戏已结束")
-
-func _add_good_directly(good_name:String, number:int, record_price:=-1):
-	assert(_verify_good_name(good_name) == true, "Error: Try to add undefined good.")
-	if record_price == -1:# 未输入价格，系统计算价格
-		record_price = _get_good_price(good_name)
-
-	# 如果玩家还没有这个物品
-	if player_status["storage"].has(good_name) != true:
-		player_status["storage"][good_name] = {
-			"number":number,
-			"record_price":record_price,
-		}
-	# 如果玩家已经有了这个物品
-	else:
-		var new_number = player_status["storage"][good_name]["number"] + number
-		# 重新计算物品买入价格，调整为均价
-		var owned_good_total_price = player_status["storage"][good_name]["number"] * player_status["storage"][good_name]["record_price"]
-		var new_good_total_price = number * record_price
-		# 原版游戏也同样截断了小数点（SelectionDlg.cpp 802行）,因此我们在此也不做其他的处理。
-		var new_record_price = (owned_good_total_price + new_good_total_price)/new_number
-		player_status["storage"][good_name]["number"] = new_number
-		player_status["storage"][good_name]["record_price"] = new_record_price
-	# 重新计算已用储藏空间
-	player_status["used_storage_size"] = _calculate_used_storage_size()
