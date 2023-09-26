@@ -5,6 +5,7 @@ enum {GAME_RUNNING, GAME_OVER}
 var environment_settings = {}
 var player_status = {}
 var goods_list = {}
+var events_list = {}
 var _onwer = null
 var _game_state = null
 
@@ -32,6 +33,9 @@ func add_cash(change: int):
 func reduce_cash(change: int):
 	assert(player_status["cash"] - change >= 0, "Error: Trying to reduce cash below 0.")
 	player_status["cash"] -= change
+
+func reduce_cash_by_percentage(percentage: float):
+	player_status["cash"] -= convert(player_status["cash"] * percentage, TYPE_INT)
 
 func add_bank_deposit_amount(change: int):
 	player_status["bank_deposit_amount"] += change
@@ -173,6 +177,18 @@ func sell_good(good_name:String, number:int):
 	reduce_good(good_name, number)
 	add_cash(total_sell_price)
 
+func _set_good_price_as_price_multiple(good_name: String, multiple_value: int):
+	assert(_verify_good_name(good_name) == true, "Error: _set_good_price_as_price_multiple try to access undefined good.")
+	for good in goods_list:
+		if good["name"] == good_name:
+			good["price"] *= multiple_value
+
+# 有没有好兄弟教教我英语啊...
+func _set_good_price_as_price_divisor(good_name: String, divisor_value: int):
+	assert(_verify_good_name(good_name) == true, "Error: _set_good_price_as_price_divisor try to access undefined good.")
+	for good in goods_list:
+		if good["name"] == good_name:
+			good["price"] /= divisor_value
 
 # 这可能是整个游戏中最常用的函数。
 # 注意，整个游戏模式其实并不关心玩家的具体位置，
@@ -191,6 +207,10 @@ func move(new_location: String):
 	# 如果不是最后两天，就随机禁用3~1种商品
 	_regenerate_all_goods_status(3) if time_left > 1 else _regenerate_all_goods_status(0)
 	_handle_debts_and_deposits()
+	print(events_list[1]["message"])
+	for command in events_list[1]["effect"].split("\n"):
+		console(command)
+		# console(i["effect"])
 	#_random_activate_events()
 	#_health_check()
 
@@ -230,15 +250,16 @@ func _init(onwer: Node):
 	#print("environment_settings : \n", str(environment_settings).replace(", \"", ",\n  \""))
 	#add_good("进口香烟",2)
 	#reduce_good("进口香烟",1)
-	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
-	# print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
-	move("somewhere")
-	buy_good("进口香烟",1)
-	buy_good("伪劣化妆品",1)
-	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
-	# print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
+	# print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+	print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
+	# move("somewhere")
+	# buy_good("进口香烟",1)
+	# buy_good("伪劣化妆品",1)
+	# print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+
 	for i in range(100):
 		move("%s"%i)
+	print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
 	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
 
 func _init_load_data():
@@ -254,6 +275,7 @@ func _init_load_data():
 	var game_data = JSON.parse_string(game_data_file.get_as_text())
 	game_data_file.close()
 	goods_list = game_data["goods"]
+	events_list = game_data["events"]
 
 func _load_config_section(config:ConfigFile, section:String, cache:Dictionary):
 	for key in config.get_section_keys(section):
