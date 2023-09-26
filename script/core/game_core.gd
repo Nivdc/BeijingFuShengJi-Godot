@@ -51,7 +51,7 @@ func reduce_debt_amount(change: int):
 func add_health(change: int):
 	assert(player_status["health"]>0, "Error: Health still increases after death.")
 	var hp     = player_status["health"]
-	var max_hp = player_status["max_health"]
+	var max_hp = environment_settings["max_health"]
 	player_status["health"] = hp+change if hp+change < max_hp else max_hp
 
 func reduce_health(change: int):
@@ -60,20 +60,19 @@ func reduce_health(change: int):
 
 func add_reputation(change: int):
 	var rep     = player_status["reputation"]
-	var max_rep = player_status["max_reputation"]
+	var max_rep = environment_settings["max_reputation"]
 	player_status["reputation"] = rep+change if rep+change < max_rep else max_rep
 
 func reduce_reputation(change: int):
 	var rep     = player_status["reputation"]
 	player_status["health"] = rep-change if rep-change > 0 else 0
 
-# 嘿嘿，我直接写死。
 func add_storage_size(change: int):
-	assert(player_status["storage_size"] + change <= 140, "Error: Try add storage_size beyond the upper limit.")
+	assert(player_status["storage_size"] + change <= environment_settings["max_storage_size"], "Error: Try add storage_size beyond the upper limit.")
 	player_status["storage_size"] += change
 
 
-# 有些事件会使用这个函数，所以要检测两次。
+# 有些事件会直接使用这个函数，所以要检测两次。
 func add_good(good_name:String, number:int, record_price:=-1):
 	if player_status["used_storage_size"]+number > player_status["storage_size"]:
 		print("好可惜!俺租的房子太小，只能放%d个物品。" % player_status["storage_size"])
@@ -110,6 +109,15 @@ func withdraw_money_from_bank(number: int):
 	add_cash(number)
 
 
+func repay_debt(number: int):
+	if player_status["cash"] < number:
+		print("我没有那么多现金偿还债务。")
+		return
+	
+	reduce_cash(number)
+	reduce_debt_amount(number)
+
+
 func buy_good(good_name:String, number:int, price:=-1):
 	assert(_verify_good_name(good_name) == true, "Error: Try to buy undefined good.")
 
@@ -117,7 +125,7 @@ func buy_good(good_name:String, number:int, price:=-1):
 		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
 		return
 	
-	if _calculate_used_storage_size()+number > player_status["storage_size"]:
+	if player_status["used_storage_size"]+number > player_status["storage_size"]:
 		print("好可惜!俺租的房子太小，只能放%d个物品。租更大的房子?" % player_status["storage_size"])
 		return
 	
@@ -202,7 +210,7 @@ func restart_game():
 	_init(_onwer)
 
 func _init(onwer: Node):
-	assert(_game_state != GAME_RUNNING, "Error: call _init function while game is running")
+	assert(_game_state != GAME_RUNNING, "Error: call _init function while game is running.")
 	_onwer = onwer
 	_init_load_data()
 	_init_global_variables()
