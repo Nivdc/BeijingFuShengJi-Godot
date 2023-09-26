@@ -33,11 +33,19 @@ func reduce_cash(change: int):
 	assert(player_status["cash"] - change >= 0, "Error: Trying to reduce cash below 0.")
 	player_status["cash"] -= change
 
-func set_bank_deposit_amount(value: int):
-	player_status["bank_deposit_amount"] = value
+func add_bank_deposit_amount(change: int):
+	player_status["bank_deposit_amount"] += change
 
-func set_debt_amount(value: int):
-	player_status["debt_amount"] = value
+func reduce_bank_deposit_amount(change: int):
+	assert(player_status["bank_deposit_amount"] - change >= 0, "Error: Trying to reduce bank_deposit_amount below 0.")
+	player_status["bank_deposit_amount"] -= change
+
+func add_debt_amount(change: int):
+	player_status["debt_amount"] += change
+
+func reduce_debt_amount(change: int):
+	assert(player_status["debt_amount"] - change >= 0, "Error: Trying to reduce debt_amount below 0.")
+	player_status["debt_amount"] -= change
 
 # 我错了...我真滴错了，手贱加什么最大值啊，直接脚本里写死不就好了。
 func add_health(change: int):
@@ -59,27 +67,10 @@ func reduce_reputation(change: int):
 	var rep     = player_status["reputation"]
 	player_status["health"] = rep-change if rep-change > 0 else 0
 
-func add_good_directly(good_name:String, number:int, record_price:=-1):
-	assert(_verify_good_name(good_name) == true, "Error: Try to add undefined good.")
-	if record_price == -1:# 未输入价格，系统计算价格
-		record_price = _get_good_price(good_name)
-
-	# 如果玩家还没有这个物品
-	if player_status["storage"].has(good_name) != true:
-		player_status["storage"][good_name] = {
-			"number":number,
-			"record_price":record_price,
-		}
-	# 如果玩家已经有了这个物品
-	else:
-		var new_number = player_status["storage"][good_name]["number"] + number
-		# 重新计算物品买入价格，调整为均价
-		var owned_good_total_price = player_status["storage"][good_name]["number"] * player_status["storage"][good_name]["record_price"]
-		var new_good_total_price = number * record_price
-		# 原版游戏也同样截断了小数点（SelectionDlg.cpp 802行）,因此我们在此也不做其他的处理。
-		var new_record_price = (owned_good_total_price + new_good_total_price)/new_number
-		player_status["storage"][good_name]["number"] = new_number
-		player_status["storage"][good_name]["record_price"] = new_record_price
+# 嘿嘿，我直接写死。
+func add_storage_size(change: int):
+	assert(player_status["storage_size"] + change <= 140, "Error: Try add storage_size beyond the upper limit.")
+	player_status["storage_size"] += change
 
 
 # 有些事件会使用这个函数，所以要检测两次。
@@ -88,7 +79,8 @@ func add_good(good_name:String, number:int, record_price:=-1):
 		print("好可惜!俺租的房子太小，只能放%d个物品。" % player_status["storage_size"])
 		return
 
-	add_good_directly(good_name, number, record_price)
+	_add_good_directly(good_name, number, record_price)
+
 
 func reduce_good(good_name:String, number:int):
 	assert(_verify_good_name(good_name) == true, "Error: Try to reduce undefined good.")
@@ -97,6 +89,23 @@ func reduce_good(good_name:String, number:int):
 	player_status["storage"][good_name]["number"] -= number
 	if player_status["storage"][good_name]["number"] == 0:
 		player_status["storage"].erase(good_name)
+
+
+func deposit_money_to_bank(number: int):
+	if player_status["cash"] < number:
+		print("我没有那么多现金存进银行。")
+		return
+	
+	reduce_cash(number)
+	add_bank_deposit_amount(number)
+
+func withdraw_money_from_bank(number: int):
+	if player_status["bank_deposit_amount"] < number:
+		print("我的银行账户里没有那么多钱。")
+		return
+	
+	reduce_bank_deposit_amount(number)
+	add_cash(number)
 
 
 func buy_good(good_name:String, number:int, price:=-1):
@@ -114,7 +123,7 @@ func buy_good(good_name:String, number:int, price:=-1):
 		price = _get_good_price(good_name)
 	
 	var total_price = number * price
-
+	
 	if total_price > player_status["cash"]:
 		if player_status["bank_deposit_amount"] > 0:
 			print("俺带的现金不够，去银行提点钱吧。")
@@ -133,15 +142,22 @@ func sell_good(good_name:String, number:int):
 		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
 		return
 	
+	if player_status["storage"].has(good_name) != true:
+		print("我好像没有 %s。" % good_name)
+	
+	if player_status["storage"][good_name]["number"] - number < 0:
+		print("我没有足够的 %s。" % good_name)
+	
 	var price = _get_good_price(good_name)
 	var total_sell_price = number * price
 	reduce_good(good_name, number)
 	add_cash(total_sell_price)
 
 
-# 这可能是整个游戏中最重要的函数。
+# 这可能是整个游戏中最常用的函数。
 # 注意，整个游戏模式其实并不关心玩家的具体位置，
 # 只是在合成某些提示的时候会用到这个位置。
+# 所以只要在前端限制输入内容即可，后端不做限制。
 func move(new_location: String):
 	if _game_state == GAME_OVER:
 		return
@@ -271,20 +287,20 @@ func _regenerate_all_goods_status(number_of_attempts: int):
 	_generate_all_goods_prices()
 
 func _get_good_price(good_name: String) -> int:
-	assert(_verify_good_name(good_name) == true, "Warning: Try to get undefined good price.")
+	assert(_verify_good_name(good_name) == true, "Error: Try to get undefined good price.")
 	for good in goods_list:
 		if good["name"] == good_name:
-			assert(good.has("price") == true, "Warning: %s has no price yet." % good["name"])
+			assert(good.has("price") == true, "Error: %s has no price yet." % good["name"])
 			return good["price"]
 	# 为了满足编辑器返回值检查，添加如下行，它们永远不该执行。
 	assert(false, "Error: function _get_good_price error.")
 	return -2
 
 func _check_good_is_active(good_name: String) -> bool:
-	assert(_verify_good_name(good_name) == true, "Warning: Try to get undefined good price.")
+	assert(_verify_good_name(good_name) == true, "Error: Try to get undefined good price.")
 	for good in goods_list:
 		if good["name"] == good_name:
-			assert(good.has("is_active") == true, "Warning: %s has no is_active yet." % good["name"])
+			assert(good.has("is_active") == true, "Error: %s has no is_active yet." % good["name"])
 			return good["is_active"]
 	# 为了满足编辑器返回值检查，添加如下行，它们永远不该执行。
 	assert(false, "Error: function _check_good_is_active error.")
@@ -300,3 +316,25 @@ func _set_main_window_title(title: String):
 func _game_over():
 	_game_state = GAME_OVER
 	print("游戏已结束")
+
+func _add_good_directly(good_name:String, number:int, record_price:=-1):
+	assert(_verify_good_name(good_name) == true, "Error: Try to add undefined good.")
+	if record_price == -1:# 未输入价格，系统计算价格
+		record_price = _get_good_price(good_name)
+
+	# 如果玩家还没有这个物品
+	if player_status["storage"].has(good_name) != true:
+		player_status["storage"][good_name] = {
+			"number":number,
+			"record_price":record_price,
+		}
+	# 如果玩家已经有了这个物品
+	else:
+		var new_number = player_status["storage"][good_name]["number"] + number
+		# 重新计算物品买入价格，调整为均价
+		var owned_good_total_price = player_status["storage"][good_name]["number"] * player_status["storage"][good_name]["record_price"]
+		var new_good_total_price = number * record_price
+		# 原版游戏也同样截断了小数点（SelectionDlg.cpp 802行）,因此我们在此也不做其他的处理。
+		var new_record_price = (owned_good_total_price + new_good_total_price)/new_number
+		player_status["storage"][good_name]["number"] = new_number
+		player_status["storage"][good_name]["record_price"] = new_record_price
