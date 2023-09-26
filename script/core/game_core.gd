@@ -75,7 +75,7 @@ func add_storage_size(change: int):
 
 # 有些事件会使用这个函数，所以要检测两次。
 func add_good(good_name:String, number:int, record_price:=-1):
-	if _calculate_used_storage()+number > player_status["storage_size"]:
+	if player_status["used_storage_size"]+number > player_status["storage_size"]:
 		print("好可惜!俺租的房子太小，只能放%d个物品。" % player_status["storage_size"])
 		return
 
@@ -89,6 +89,8 @@ func reduce_good(good_name:String, number:int):
 	player_status["storage"][good_name]["number"] -= number
 	if player_status["storage"][good_name]["number"] == 0:
 		player_status["storage"].erase(good_name)
+	# 重新计算已用储藏空间
+	player_status["used_storage_size"] = _calculate_used_storage_size()
 
 
 func deposit_money_to_bank(number: int):
@@ -115,7 +117,7 @@ func buy_good(good_name:String, number:int, price:=-1):
 		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
 		return
 	
-	if _calculate_used_storage()+number > player_status["storage_size"]:
+	if _calculate_used_storage_size()+number > player_status["storage_size"]:
 		print("好可惜!俺租的房子太小，只能放%d个物品。租更大的房子?" % player_status["storage_size"])
 		return
 	
@@ -143,7 +145,7 @@ func sell_good(good_name:String, number:int):
 		return
 	
 	if player_status["storage"].has(good_name) != true:
-		print("我好像没有 %s。" % good_name)
+		print("我没有 %s。" % good_name)
 	
 	if player_status["storage"][good_name]["number"] - number < 0:
 		print("我没有足够的 %s。" % good_name)
@@ -243,10 +245,11 @@ func _load_config_section(config:ConfigFile, section:String, cache:Dictionary):
 func _init_global_variables():
 	player_status["elapsed_time"] = 0
 	player_status["storage"] = {}
+	player_status["used_storage_size"] = 0
 	player_status["current_location"] = ""
 	_regenerate_all_goods_status(3)
 
-func _calculate_used_storage() -> int:
+func _calculate_used_storage_size() -> int:
 	if player_status["storage"].is_empty() == true:
 		return 0
 	else:
@@ -338,3 +341,5 @@ func _add_good_directly(good_name:String, number:int, record_price:=-1):
 		var new_record_price = (owned_good_total_price + new_good_total_price)/new_number
 		player_status["storage"][good_name]["number"] = new_number
 		player_status["storage"][good_name]["record_price"] = new_record_price
+	# 重新计算已用储藏空间
+	player_status["used_storage_size"] = _calculate_used_storage_size()
