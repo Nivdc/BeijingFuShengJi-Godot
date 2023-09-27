@@ -245,7 +245,18 @@ func move(new_location: String):
 	_regenerate_all_goods_status(3) if time_left > 1 else _regenerate_all_goods_status(0)
 	_handle_debts_and_deposits()
 	_random_activate_events()
-	#_health_check()
+	# 在继续之前检查一下玩家是不是死了
+	if player_status["health"] == 0:
+		# 播放音效
+		print("俺倒在街头,身边日记本上写着：\"北京，我将再来!\"")
+		_game_over()
+		return
+
+	if player_status["health"] < 20 and player_status["health"] > 0:
+		print("俺的健康..健康危机..快去医..")
+
+	if player_status["health"] < 85 and time_left > 3:
+		_forced_medical_event()
 
 	if player_status["debt_amount"] > 100_000:
 		print("俺欠钱太多，村长叫一群老乡揍了俺一顿!")
@@ -400,12 +411,13 @@ func _game_over():
 func _random_activate_events():
 	for event_type in _event_type_list:
 		var current_event_group = events_list.filter(func(event): return event["type"] == event_type)
+		# 根据事件类型划分事件组，每个事件组都会检测一次是否发生某一事件。
 		for event in current_event_group:
 			# 理论上来说是没有必要针对事件类型区分概率计算的，但原版的事件概率计算确实是有点不同的。
 			var random_number_upper_limit = 950 if event_type == "normal" else 1000
 			var event_frequency = convert(event["frequency"], TYPE_INT)
 			if _random_number(random_number_upper_limit) % event_frequency == 0:
-				# 如果事件相关的物品当前无法交易，就跳过。
+				# 如果事件相关的物品当前无法交易，就跳过该事件。
 				if event.has("requires_active_good"):
 					if _check_good_is_active(event["requires_active_good"]) != true:
 						continue
@@ -419,3 +431,27 @@ func _random_activate_events():
 					pass
 				# 进入下一个事件组
 				break
+
+func _forced_medical_event():
+	var location_collection = [
+		"发廊里","早点摊上","报摊上","烤羊肉摊上","公共汽车里","人力车上","女厕所里",
+		"男厕所里","电话亭里","三陪女怀里","出租车里","小巴里","美容院里",
+		"小商亭里","小商场门口","民工脚下","无照游商摊里","草地上","电线杆顶端",
+		"小饭馆里","马路边","人行道上","街心公园里","广告牌下","公共汽车站里",
+		"长途汽车站里","卖盗版游戏的旁边","网络公司尸体旁边","行骗的知本家旁边",
+	]
+	var random_delay_day = 1 + _random_number(2)
+	var new_debt = random_delay_day * (1000 + _random_number(8500))
+	print(	"""
+			由于不注意身体,我被人发现昏迷在%s附近的%s。
+			好心的市民把我抬到了医院，医生让我治疗%d天。
+			村长让人为我垫付了住院费用%d元。
+			""".dedent().trim_prefix("\n").trim_suffix("\n")
+			% 
+			[
+			player_status["current_location"], 
+			location_collection[_random_number(location_collection.size())],
+			random_delay_day,
+			new_debt
+			]
+		)
