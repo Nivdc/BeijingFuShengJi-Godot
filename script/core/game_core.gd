@@ -290,21 +290,8 @@ func _init(onwer: Node):
 	_init_global_variables()
 	_set_main_window_title("北京浮生记 ( %s/%s ) "% [player_status["elapsed_time"], environment_settings["time_limit"]])
 	_game_state = GAME_RUNNING
-	#下面是一些测试函数...不要在意。
-	#print("environment_settings : \n", str(environment_settings).replace(", \"", ",\n  \""))
-	#add_good("进口香烟",2)
-	#reduce_good("进口香烟",1)
-	# print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
-	print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
-	# move("somewhere")
-	# buy_good("进口香烟",1)
-	# buy_good("伪劣化妆品",1)
-	# print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+	_onwer.emit_signal("game_core_readied")
 
-	for i in range(100):
-		move("%s"%i)
-	print("goods_list : \n", str(goods_list).replace(", \"", ",\n  \""))
-	print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
 
 func _init_load_data():
 	# 加载初始化信息

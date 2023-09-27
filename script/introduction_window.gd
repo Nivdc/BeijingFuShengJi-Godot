@@ -1,8 +1,11 @@
 extends Window
 
+signal game_core_readied
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.connect("close_requested",func():self.visible = false)
+	self.connect("close_requested",func():self.hide())
+	self.connect("game_core_readied",func():$Button.set_disabled(false))
 	$Button.pressed.connect(self._start_game)
 	pass # Replace with function body.
 

@@ -74,4 +74,5 @@ offset_right = 100.0
 offset_bottom = 487.0
 grow_horizontal = 2
 theme = ExtResource("1_i5mnc")
+disabled = true
 text = "开始游戏 >>"

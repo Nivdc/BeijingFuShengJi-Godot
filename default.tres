@@ -1,6 +1,15 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cicypc1i7ogw4"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://cicypc1i7ogw4"]
 
 [ext_resource type="FontFile" uid="uid://cw1gn6cyfowhy" path="res://resource/font/SourceHanSansSC-Regular.otf" id="1_554om"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txdxp"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xcjun"]
 draw_center = false
@@ -84,12 +93,14 @@ shadow_offset = Vector2(2, 2)
 [resource]
 default_font = ExtResource("1_554om")
 Button/colors/font_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+Button/colors/font_disabled_color = Color(0.631373, 0.631373, 0.631373, 1)
 Button/colors/font_focus_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 Button/colors/font_hover_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 Button/colors/font_hover_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 Button/colors/font_outline_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 Button/colors/font_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 Button/font_sizes/font_size = 19
+Button/styles/disabled = SubResource("StyleBoxFlat_txdxp")
 Button/styles/hover = SubResource("StyleBoxFlat_xcjun")
 Button/styles/normal = SubResource("StyleBoxFlat_xcjun")
 Button/styles/pressed = SubResource("StyleBoxFlat_7chra")
