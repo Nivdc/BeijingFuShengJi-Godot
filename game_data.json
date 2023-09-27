@@ -46,85 +46,99 @@
 			"frequency":170,
 			"message":"专家提议提高大学生“动手素质”，进口玩具颇受欢迎!",
 			"effect":"_set_good_price_as_price_multiple(\"进口玩具\",2)",
+			"requires_active_good":"进口玩具"
 		},
 		{
 			"type":"normal",
 			"frequency":139,
 			"message":"有人自豪地说：生病不用打针吃药，喝假白酒（剧毒）就可以!",
 			"effect":"_set_good_price_as_price_multiple(\"假白酒（剧毒！）\",3)",
+			"requires_active_good":"假白酒（剧毒！）"
 		},
 		{
 			"type":"normal",
 			"frequency":100,
 			"message":"医院的秘密报告：“《上海小宝贝》功效甚过伟哥”!",
 			"effect":"_set_good_price_as_price_multiple(\"《上海小宝贝》（禁书）\",5)",
+			"requires_active_good":"《上海小宝贝》（禁书）"
 		},
 		{
 			"type":"normal",
 			"frequency":41,
 			"message":"文盲说：“2000年诺贝尔文学奖？呸！不如盗版VCD港台片。”",
 			"effect":"_set_good_price_as_price_multiple(\"盗版VCD、游戏\",4)",
+			"requires_active_good":"盗版VCD、游戏"
 		},
 		{
 			"type":"normal",
 			"frequency":37,
 			"message":"《北京经济小报》社论：“走私汽车大力推进汽车消费!”",
 			"effect":"_set_good_price_as_price_multiple(\"走私汽车\",3)",
+			"requires_active_good":"走私汽车"
 		},
 		{
 			"type":"normal",
 			"frequency":23,
 			"message":"《北京真理报》社论：“提倡爱美，落到实处”，伪劣化妆品大受欢迎!",
 			"effect":"_set_good_price_as_price_multiple(\"伪劣化妆品\",4)",
+			"requires_active_good":"伪劣化妆品"
 		},
 		{
 			"type":"normal",
 			"frequency":37,
 			"message":"8858.com电子书店也不敢卖《上海小宝贝》，黑市一册可卖天价!",
 			"effect":"_set_good_price_as_price_multiple(\"《上海小宝贝》（禁书）\",8)",
+			"requires_active_good":"《上海小宝贝》（禁书）"
 		},
 		{
 			"type":"normal",
 			"frequency":15,
 			"message":"谢不疯在晚会上说：“我酷!我使用伪劣化妆品!”，伪劣化妆品供不应求!",
 			"effect":"_set_good_price_as_price_multiple(\"伪劣化妆品\",7)",
+			"requires_active_good":"伪劣化妆品"
 		},
 		{
 			"type":"normal",
 			"frequency":40,
 			"message":"北京有人狂饮山西假酒，可以卖出天价!",
 			"effect":"_set_good_price_as_price_multiple(\"假白酒（剧毒！）\",3)",
+			"requires_active_good":"假白酒（剧毒！）"
 		},
 		{
 			"type":"normal",
 			"frequency":29,
 			"message":"北京的大学生们开始找工作，水货手机大受欢迎！!",
 			"effect":"_set_good_price_as_price_multiple(\"水货手机\",7)",
+			"requires_active_good":"水货手机"
 		},
 		{
 			"type":"normal",
 			"frequency":35,
 			"message":"北京的富人疯狂地购买走私汽车！价格狂升!",
 			"effect":"_set_good_price_as_price_multiple(\"走私汽车\",8)",
+			"requires_active_good":"走私汽车"
 		},
 
 		{
 			"type":"normal",
 			"frequency":17,
 			"message":"市场上充斥着来自福建的走私香烟!",
-			"effect":"_set_good_price_as_price_divisor(\"走私香烟\",8)",
+			"effect":"_set_good_price_as_price_divisor(\"进口香烟\",8)",
+			"requires_active_good":"进口香烟"
 		},
 		{
 			"type":"normal",
 			"frequency":24,
 			"message":"北京的孩子们都忙于上网学习，进口玩具没人愿意买。",
 			"effect":"_set_good_price_as_price_divisor(\"进口玩具\",5)",
+			"requires_active_good":"进口玩具"
 		},
 		{
 			"type":"normal",
 			"frequency":18,
 			"message":"盗版业十分兴旺，“中国硅谷”——中关村全是卖盗版VCD的村姑!",
 			"effect":"_set_good_price_as_price_divisor(\"盗版VCD、游戏\",8)",
+			"requires_active_good":"盗版VCD、游戏"
 		},
 
 		{

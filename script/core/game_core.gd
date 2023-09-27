@@ -8,6 +8,7 @@ var goods_list = {}
 var events_list = {}
 var _onwer = null
 var _game_state = null
+var _event_type_list = []
 
 # 下面这个console的实现无法调用内部的变量，可能是我没有找到正确的用法，
 # 姑且将其保留，后面再研究下，我先看看 Expression 能不能做到类似的功能。
@@ -45,7 +46,7 @@ func reduce_bank_deposit_amount(change: int):
 	assert(player_status["bank_deposit_amount"] - change >= 0, "Error: Trying to reduce bank_deposit_amount below 0.")
 	player_status["bank_deposit_amount"] -= change
 
-#......它为什么这么长？
+# ......它为什么这么长？
 func reduce_bank_deposit_amount_by_percentage_with_notice(percentage: int):
 	player_status["bank_deposit_amount"] -= convert(player_status["bank_deposit_amount"] * (percentage * 0.01), TYPE_INT)
 	print("俺的存款减少了%d%%，哎呀！" % percentage)
@@ -243,11 +244,7 @@ func move(new_location: String):
 	# 如果不是最后两天，就随机禁用3~1种商品
 	_regenerate_all_goods_status(3) if time_left > 1 else _regenerate_all_goods_status(0)
 	_handle_debts_and_deposits()
-	print(events_list[1]["message"])
-	for command in events_list[1]["effect"].split("\n"):
-		console(command)
-		# console(i["effect"])
-	#_random_activate_events()
+	_random_activate_events()
 	#_health_check()
 
 	if player_status["debt_amount"] > 100_000:
@@ -324,6 +321,10 @@ func _init_global_variables():
 	player_status["used_storage_size"] = 0
 	player_status["current_location"] = ""
 	_regenerate_all_goods_status(3)
+	_event_type_list = []
+	for event in events_list:
+		if _event_type_list.has(event["type"]) != true:
+			_event_type_list.append(event["type"])
 
 func _calculate_used_storage_size() -> int:
 	if player_status["storage"].is_empty() == true:
@@ -376,7 +377,7 @@ func _get_good_price(good_name: String) -> int:
 	return -2
 
 func _check_good_is_active(good_name: String) -> bool:
-	assert(_verify_good_name(good_name) == true, "Error: Try to get undefined good price.")
+	assert(_verify_good_name(good_name) == true, "Error: Try to get undefined good state.")
 	for good in goods_list:
 		if good["name"] == good_name:
 			assert(good.has("is_active") == true, "Error: %s has no is_active yet." % good["name"])
@@ -395,3 +396,26 @@ func _set_main_window_title(title: String):
 func _game_over():
 	_game_state = GAME_OVER
 	print("游戏已结束")
+
+func _random_activate_events():
+	for event_type in _event_type_list:
+		var current_event_group = events_list.filter(func(event): return event["type"] == event_type)
+		for event in current_event_group:
+			# 理论上来说是没有必要针对事件类型区分概率计算的，但原版的事件概率计算确实是有点不同的。
+			var random_number_upper_limit = 950 if event_type == "normal" else 1000
+			var event_frequency = convert(event["frequency"], TYPE_INT)
+			if _random_number(random_number_upper_limit) % event_frequency == 0:
+				# 如果事件相关的物品当前无法交易，就跳过。
+				if event.has("requires_active_good"):
+					if _check_good_is_active(event["requires_active_good"]) != true:
+						continue
+				# 提示事件信息
+				print(event["message"])
+				# 执行事件指令
+				for command in event["effect"].split("\n"):
+					console(command)
+				#播放音效
+				if event.has("sound"):
+					pass
+				# 进入下一个事件组
+				break
