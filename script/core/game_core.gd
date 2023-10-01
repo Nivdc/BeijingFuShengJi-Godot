@@ -341,7 +341,7 @@ func _verify_good_name(good_name: String) ->bool:
 
 func _generate_all_goods_prices():
 	for good in goods_list:
-		good["price"] = good["base_price"] + _random_number(good["price_random_increase_range"])
+		good["price"] = convert(good["base_price"] + _random_number(good["price_random_increase_range"]), TYPE_INT)
 
 func _set_all_goods_active_state(active_state: bool):
 	for good in goods_list:
