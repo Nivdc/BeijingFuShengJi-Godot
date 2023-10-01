@@ -30,6 +30,7 @@ import/blender/enabled=false
 
 theme/custom_font="res://resource/font/SourceHanSansSC-Regular.otf"
 theme/default_font_multichannel_signed_distance_field=true
+theme/default_font_generate_mipmaps=true
 
 [rendering]
 
