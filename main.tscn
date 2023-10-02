@@ -42,6 +42,7 @@ theme_override_constants/margin_right = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 50
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -129,6 +130,192 @@ column_titles_visible = true
 hide_folding = true
 hide_root = true
 select_mode = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MainContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Line2D" type="Line2D" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+points = PackedVector2Array(10, 15, 0, 15, 0, 230, 230, 230, 230, 15, 110, 15)
+width = 1.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "您的状态"
+
+[node name="MarginContainer2" type="MarginContainer" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+text = "现金：N/A"
+
+[node name="Label2" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+text = "存款：N/A"
+
+[node name="Label3" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+text = "债务：N/A"
+
+[node name="Label4" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+text = "健康：N/A"
+
+[node name="Label5" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+text = "名声：N/A"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Line2D" type="Line2D" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+points = PackedVector2Array(10, 15, -20, 15, -20, 230, 500, 230, 500, 15, 160, 15)
+width = 1.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "北京地铁示意图"
+
+[node name="GridContainer" type="GridContainer" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 20
+columns = 5
+
+[node name="Label" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button2" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button3" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button4" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button5" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button6" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button7" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button8" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Label3" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+
+[node name="Button9" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button10" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="Button11" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+text = "西直门"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MainContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Button" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(125, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "银行"
+
+[node name="Button2" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(125, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "医院"
+
+[node name="Button3" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(125, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "邮局"
+
+[node name="Button4" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(125, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "租房中介"
+
+[node name="Button5" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(125, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "网吧"
 
 [node name="IntroWindow" parent="." instance=ExtResource("3_ricqv")]
 visible = false
