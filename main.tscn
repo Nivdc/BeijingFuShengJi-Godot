@@ -165,23 +165,23 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer" groups=["player_status_labels"]]
 layout_mode = 2
 text = "现金：N/A"
 
-[node name="Label2" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="Label2" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer" groups=["player_status_labels"]]
 layout_mode = 2
 text = "存款：N/A"
 
-[node name="Label3" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="Label3" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer" groups=["player_status_labels"]]
 layout_mode = 2
 text = "债务：N/A"
 
-[node name="Label4" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="Label4" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer" groups=["player_status_labels"]]
 layout_mode = 2
 text = "健康：N/A"
 
-[node name="Label5" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="Label5" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer2/VBoxContainer" groups=["player_status_labels"]]
 layout_mode = 2
 text = "名声：N/A"
 
@@ -220,45 +220,45 @@ layout_mode = 2
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
 
-[node name="Button" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
+toggle_mode = true
 text = "西直门"
 
-[node name="Button2" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button2" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "积水潭"
 
-[node name="Button3" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button3" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "东直门"
 
-[node name="Button4" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button4" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "苹果园"
 
-[node name="Button5" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button5" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "公主坟"
 
-[node name="Button6" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button6" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "复兴门"
 
-[node name="Button7" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Label5" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
 
-[node name="Button8" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button8" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "建国门"
 
 [node name="Label3" type="Label" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
 custom_minimum_size = Vector2(70, 40)
@@ -268,20 +268,20 @@ layout_mode = 2
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
 
-[node name="Button9" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button9" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "长椿街"
 
-[node name="Button10" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button10" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "崇文门"
 
-[node name="Button11" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer"]
+[node name="Button11" type="Button" parent="MainContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/GridContainer" groups=["location_buttons"]]
 custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
-text = "西直门"
+text = "北京站"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MainContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

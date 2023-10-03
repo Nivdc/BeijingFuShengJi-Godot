@@ -279,6 +279,7 @@ func move(new_location: String):
 	
 	player_status["elapsed_time"] += 1
 	_set_main_window_title("北京浮生记 ( %s/%s ) "% [player_status["elapsed_time"], environment_settings["time_limit"]])
+	_onwer.emit_signal("game_core_updated")
 
 func restart_game():
 	_init(_onwer)
