@@ -3,7 +3,6 @@ extends Window
 signal game_core_readied
 
 func _ready():
-	self.set_process(false)#禁用帧处理，不需要这个
 	self.connect("close_requested",func():self.hide())
 	self.connect("game_core_readied",func():$Button.set_disabled(false))
 	$Button.pressed.connect(self._start_game)

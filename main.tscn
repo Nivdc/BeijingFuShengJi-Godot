@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=6 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
 [ext_resource type="PackedScene" uid="uid://bjsqakdst865j" path="res://scene/introduction_window.tscn" id="3_ricqv"]
+[ext_resource type="Script" path="res://script/diary_window.gd" id="4_pf8c1"]
+[ext_resource type="Texture2D" uid="uid://bd06hy7tyvnb0" path="res://resource/image/riji.bmp" id="4_r80o3"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
@@ -319,3 +321,53 @@ text = "网吧"
 
 [node name="IntroWindow" parent="." instance=ExtResource("3_ricqv")]
 visible = false
+
+[node name="DiaryWindow" type="Window" parent="."]
+title = "我在北京的岁月"
+initial_position = 2
+size = Vector2i(600, 200)
+visible = false
+transient = true
+exclusive = true
+script = ExtResource("4_pf8c1")
+
+[node name="MarginContainer" type="MarginContainer" parent="DiaryWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DiaryWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DiaryWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="DiaryWindow/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_r80o3")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="DiaryWindow/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+autowrap_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="DiaryWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_right = 200
+
+[node name="Button" type="Button" parent="DiaryWindow/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "关上日记本"

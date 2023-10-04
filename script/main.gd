@@ -8,7 +8,6 @@ var core = null
 
 func _ready():
 	randomize()#初始化随机数种子
-	self.set_process(false)#禁用帧处理，不需要这个
 
 	self.connect("game_core_readied",func():$IntroWindow.emit_signal("game_core_readied"))
 	core = preload("res://script/core/game_core.gd").new(self)
