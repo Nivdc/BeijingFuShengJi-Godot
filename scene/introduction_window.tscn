@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ddti4ktdsxw6p" path="res://resource/image/0000-0.bmp" id="1_eud0b"]
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_i5mnc"]
-[ext_resource type="Script" path="res://Script/introduction_window.gd" id="1_nvff7"]
+[ext_resource type="Script" path="res://script/introduction_window.gd" id="1_nvff7"]
 
 [node name="Window" type="Window"]
 initial_position = 2

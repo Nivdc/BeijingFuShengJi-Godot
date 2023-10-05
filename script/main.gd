@@ -3,6 +3,8 @@ extends Node
 signal game_core_readied
 signal game_started
 signal game_core_updated
+signal message_with_diary_window(message: String)
+signal message_with_news_window(message: String)
 var core = null
 
 
@@ -86,3 +88,13 @@ func _init_buttons():
 	var location_buttons = get_tree().get_nodes_in_group("location_buttons")
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
+
+
+func _setup_diary_window(message: String):
+	$DiaryWindow.show()
+	$DiaryWindow.set_text(message)
+
+
+func _setup_news_window(message: String):
+	$NewsWindow.show()
+	$NewsWindow.set_text(message)
