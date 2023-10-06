@@ -557,7 +557,6 @@ text = "治疗点数："
 [node name="LineEdit" type="LineEdit" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 0
-placeholder_text = "vvvvv"
 max_length = 4
 expand_to_text_length = true
 
@@ -578,6 +577,7 @@ text = "你太黑了！俺告你去！"
 
 [node name="PostOfficeWindow" type="Window" parent="."]
 title = "给村长还钱"
+initial_position = 2
 size = Vector2i(500, 200)
 visible = false
 
@@ -619,7 +619,6 @@ text = "您还多少？："
 [node name="LineEdit" type="LineEdit" parent="PostOfficeWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 0
-placeholder_text = "vvvvv"
 max_length = 10
 expand_to_text_length = true
 
@@ -690,8 +689,9 @@ text = "怕上当，下次吧"
 
 [node name="CybercafeWindow" type="Window" parent="."]
 title = "街头网吧"
-position = Vector2i(0, 36)
+initial_position = 2
 size = Vector2i(500, 500)
+visible = false
 unresizable = true
 
 [node name="MarginContainer" type="MarginContainer" parent="CybercafeWindow"]
@@ -812,3 +812,132 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "离开网吧
 "
+
+[node name="BuyWindow" type="Window" parent="."]
+title = "买多少？"
+initial_position = 2
+size = Vector2i(600, 250)
+visible = false
+
+[node name="MarginContainer" type="MarginContainer" parent="BuyWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuyWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BuyWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "您的现金是%d元，最多可以买%d个%s。"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="BuyWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BuyWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "您想买多少？："
+
+[node name="LineEdit" type="LineEdit" parent="BuyWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+max_length = 4
+expand_to_text_length = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="BuyWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Button" type="Button" parent="BuyWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "确认"
+
+[node name="Button2" type="Button" parent="BuyWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "取消"
+
+[node name="SellWindow" type="Window" parent="."]
+title = "卖多少？"
+initial_position = 2
+size = Vector2i(600, 250)
+
+[node name="MarginContainer" type="MarginContainer" parent="SellWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SellWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SellWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "您有%d个%s，想卖出多少？"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SellWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="SellWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "您想卖出多少？："
+
+[node name="LineEdit" type="LineEdit" parent="SellWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+max_length = 4
+expand_to_text_length = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SellWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Button" type="Button" parent="SellWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "确认"
+
+[node name="Button2" type="Button" parent="SellWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "取消"
