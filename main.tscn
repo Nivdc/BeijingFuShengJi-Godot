@@ -357,12 +357,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 4
 theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DiaryWindow/MarginContainer"]
 layout_mode = 2
@@ -410,12 +409,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 4
 theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NewsWindow/MarginContainer"]
 layout_mode = 2
@@ -464,7 +462,7 @@ theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BankWindow/MarginContainer"]
 layout_mode = 2
@@ -518,7 +516,7 @@ theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HospitalWindow/MarginContainer"]
 layout_mode = 2
@@ -592,7 +590,7 @@ theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PostOfficeWindow/MarginContainer"]
 layout_mode = 2
@@ -654,7 +652,7 @@ theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RentalAgencyWindow/MarginContainer"]
 layout_mode = 2
@@ -816,7 +814,7 @@ text = "离开网吧
 [node name="BuyWindow" type="Window" parent="."]
 title = "买多少？"
 initial_position = 2
-size = Vector2i(600, 250)
+size = Vector2i(500, 200)
 visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="BuyWindow"]
@@ -830,7 +828,7 @@ theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BuyWindow/MarginContainer"]
 layout_mode = 2
@@ -881,7 +879,8 @@ text = "取消"
 [node name="SellWindow" type="Window" parent="."]
 title = "卖多少？"
 initial_position = 2
-size = Vector2i(600, 250)
+size = Vector2i(500, 200)
+visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="SellWindow"]
 anchors_preset = 15
@@ -894,7 +893,7 @@ theme = ExtResource("1_c1l05")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SellWindow/MarginContainer"]
 layout_mode = 2
