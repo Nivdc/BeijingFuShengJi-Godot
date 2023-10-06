@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=9 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://script/diary_window.gd" id="4_pf8c1"]
 [ext_resource type="Texture2D" uid="uid://bd06hy7tyvnb0" path="res://resource/image/riji.bmp" id="4_r80o3"]
 [ext_resource type="Texture2D" uid="uid://bjj74ddmtw3am" path="res://resource/image/news.bmp" id="6_e4t7r"]
+[ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
 
 [sub_resource type="GDScript" id="GDScript_37wee"]
 script/source = "extends Window
@@ -377,9 +378,12 @@ texture = ExtResource("4_r80o3")
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="DiaryWindow/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 150)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="DiaryWindow/MarginContainer/VBoxContainer"]
@@ -429,7 +433,9 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="NewsWindow/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="NewsWindow/MarginContainer/VBoxContainer"]
@@ -443,7 +449,9 @@ text = "确定"
 
 [node name="BankWindow" type="Window" parent="."]
 title = "银行"
+initial_position = 2
 size = Vector2i(500, 200)
+visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="BankWindow"]
 anchors_preset = 15
@@ -464,10 +472,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="BankWindow/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 6
+size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 16
 text = "客户您好，您的现金是N/A，您的存款是N/A，请问您要..."
+vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="BankWindow/MarginContainer/VBoxContainer"]
@@ -476,15 +484,71 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="BankWindow/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 10
+theme_override_constants/separation = 30
 
 [node name="Button" type="Button" parent="BankWindow/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "确定"
+text = "存款"
+
+[node name="Button2" type="Button" parent="BankWindow/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "取款"
+
+[node name="Button3" type="Button" parent="BankWindow/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "取消"
 
 [node name="HospitalWindow" type="Window" parent="."]
 title = "在医院里"
-visible = false
+position = Vector2i(0, 36)
+size = Vector2i(600, 250)
+
+[node name="MarginContainer" type="MarginContainer" parent="HospitalWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HospitalWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HospitalWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_8u22i")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "大夫高兴地拍着手说：“您的健康点数是N/A，需要治疗的点数是N/A。坚决抵制腐败！每个健康点数俺只收您N/A元红包。”"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HospitalWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_right = 200
+
+[node name="Button" type="Button" parent="HospitalWindow/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "确定"
 
 [node name="PostOfficeWindow" type="Window" parent="."]
 title = "给村长还钱"
