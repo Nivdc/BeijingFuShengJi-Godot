@@ -503,8 +503,9 @@ text = "取消"
 
 [node name="HospitalWindow" type="Window" parent="."]
 title = "在医院里"
-position = Vector2i(0, 36)
+initial_position = 2
 size = Vector2i(600, 250)
+visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="HospitalWindow"]
 anchors_preset = 15
@@ -525,6 +526,7 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="HospitalWindow/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
 theme_override_constants/separation = 10
 
 [node name="TextureRect" type="TextureRect" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -541,23 +543,272 @@ text = "大夫高兴地拍着手说：“您的健康点数是N/A，需要治疗
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="HospitalWindow/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HospitalWindow/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_right = 200
+size_flags_horizontal = 4
+size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="HospitalWindow/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="Label" type="Label" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "确定"
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "治疗点数："
+
+[node name="LineEdit" type="LineEdit" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "vvvvv"
+max_length = 4
+expand_to_text_length = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HospitalWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Button" type="Button" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "确认"
+
+[node name="Button2" type="Button" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "你太黑了！俺告你去！"
 
 [node name="PostOfficeWindow" type="Window" parent="."]
 title = "给村长还钱"
+size = Vector2i(500, 200)
 visible = false
+
+[node name="MarginContainer" type="MarginContainer" parent="PostOfficeWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PostOfficeWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PostOfficeWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "村长在电话中说：“铁牛，你欠俺N/A元，快还！”"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PostOfficeWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="PostOfficeWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "您还多少？："
+
+[node name="LineEdit" type="LineEdit" parent="PostOfficeWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "vvvvv"
+max_length = 10
+expand_to_text_length = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PostOfficeWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Button" type="Button" parent="PostOfficeWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "确认"
+
+[node name="Button2" type="Button" parent="PostOfficeWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "缓几天吧"
 
 [node name="RentalAgencyWindow" type="Window" parent="."]
-title = "银行"
+title = "租房中介"
+initial_position = 2
+size = Vector2i(600, 200)
 visible = false
 
+[node name="MarginContainer" type="MarginContainer" parent="RentalAgencyWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RentalAgencyWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RentalAgencyWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 0
+text = "欢迎来到北京“扁子居”租房中介公司！
+我们的理念：免费看房，成交补款，童叟无欺，无耻无畏！
+想把生意做大？您现在的房子只能放N/A个物品，太小啦！
+您花费N/A元可以租能放N/A个物品的房子。"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="RentalAgencyWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Button" type="Button" parent="RentalAgencyWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "成交"
+
+[node name="Button2" type="Button" parent="RentalAgencyWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "怕上当，下次吧"
+
 [node name="CybercafeWindow" type="Window" parent="."]
-title = "银行"
-visible = false
+title = "街头网吧"
+position = Vector2i(0, 36)
+size = Vector2i(500, 500)
+unresizable = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CybercafeWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CybercafeWindow/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "请选择您在网吧做什么："
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CybercafeWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Line2D" type="Line2D" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer"]
+points = PackedVector2Array(0, 15, -10, 15, -10, 210, 465, 210, 465, 15, 95, 15)
+width = 1.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "本游戏相关"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label2" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "给重制版作者写信"
+
+[node name="LinkButton" type="LinkButton" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "mailto:nivdc@qq.com"
+underline = 1
+uri = "mailto:nivdc@qq.com"
+
+[node name="Label2" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "访问原版游戏的项目主页"
+
+[node name="LinkButton" type="LinkButton" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "https://github.com/chrisguo/beijing_fushengji"
+uri = "https://github.com/chrisguo/beijing_fushengji"
+
+[node name="Label3" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "访问重制版游戏的项目主页"
+
+[node name="LinkButton2" type="LinkButton" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "https://github.com/Nivdc/BeijingFuShengJi-Godot"
+uri = "https://github.com/Nivdc/BeijingFuShengJi-Godot"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CybercafeWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Line2D" type="Line2D" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2"]
+points = PackedVector2Array(0, 15, -10, 15, -10, 120, 465, 120, 465, 15, 110, 15)
+width = 1.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "游戏相关："
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Label2" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "独立游戏"
+
+[node name="LinkButton" type="LinkButton" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "https://indienova.com/"
+underline = 1
+uri = "https://indienova.com/"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Label2" type="Label" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+text = "游戏开发"
+
+[node name="LinkButton" type="LinkButton" parent="CybercafeWindow/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+text = "https://www.gamedev.net/"
+underline = 1
+uri = "https://www.gamedev.net/"
+
+[node name="MarginContainer" type="MarginContainer" parent="CybercafeWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+
+[node name="Button" type="Button" parent="CybercafeWindow/MarginContainer/VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "离开网吧
+"

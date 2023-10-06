@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=3 uid="uid://cicypc1i7ogw4"]
+[gd_resource type="Theme" load_steps=19 format=3 uid="uid://cicypc1i7ogw4"]
 
 [ext_resource type="FontFile" uid="uid://cw1gn6cyfowhy" path="res://resource/font/SourceHanSansSC-Regular.otf" id="1_554om"]
 
@@ -31,6 +31,17 @@ border_width_right = 1
 border_width_bottom = 1
 corner_detail = 4
 shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bry5d"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xx0hp"]
 content_margin_left = 20.0
@@ -151,6 +162,17 @@ Button/styles/pressed = SubResource("StyleBoxFlat_7chra")
 Label/colors/font_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 Label/constants/line_spacing = -10
 Label/font_sizes/font_size = 19
+LineEdit/colors/caret_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_outline_color = Color(0, 0, 0, 1)
+LineEdit/styles/focus = null
+LineEdit/styles/normal = SubResource("StyleBoxFlat_bry5d")
+LinkButton/colors/font_color = Color(0, 0, 1, 1)
+LinkButton/colors/font_focus_color = Color(0, 0.501961, 0.501961, 1)
+LinkButton/colors/font_hover_color = Color(0, 0, 1, 1)
+LinkButton/colors/font_outline_color = Color(0, 0, 1, 1)
+LinkButton/colors/font_pressed_color = Color(0.501961, 0, 0.501961, 1)
+LinkButton/font_sizes/font_size = 19
 MenuBar/colors/font_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 MenuBar/colors/font_focus_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 MenuBar/colors/font_hover_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
