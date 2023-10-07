@@ -177,6 +177,7 @@ func buy_good(good_name:String, number:int, price:=-1):
 		return
 	
 	if player_status["used_storage_size"]+number > player_status["storage_size"]:
+		print(player_status["used_storage_size"]+number)
 		print("好可惜!俺租的房子太小，只能放%d个物品。租更大的房子?" % player_status["storage_size"])
 		return
 	
@@ -194,6 +195,7 @@ func buy_good(good_name:String, number:int, price:=-1):
 	
 	reduce_cash(total_price)
 	add_good(good_name, number, price)
+	_onwer.emit_signal("game_core_updated")
 
 
 func sell_good(good_name:String, number:int):
@@ -213,6 +215,8 @@ func sell_good(good_name:String, number:int):
 	var total_sell_price = number * price
 	reduce_good(good_name, number)
 	add_cash(total_sell_price)
+	_onwer.emit_signal("game_core_updated")
+
 
 func _set_good_price_as_price_multiple(good_name: String, multiple_value: int):
 	assert(_verify_good_name(good_name) == true, "Error: _set_good_price_as_price_multiple try to access undefined good.")
@@ -220,7 +224,7 @@ func _set_good_price_as_price_multiple(good_name: String, multiple_value: int):
 		if good["name"] == good_name:
 			good["price"] *= multiple_value
 
-# 有没有好兄弟教教我英语啊...这么拼对吗？
+# 有没有好兄弟教教我这么拼对吗？
 func _set_good_price_as_price_divisor(good_name: String, divisor_value: int):
 	assert(_verify_good_name(good_name) == true, "Error: _set_good_price_as_price_divisor try to access undefined good.")
 	for good in goods_list:
@@ -410,7 +414,11 @@ func _random_activate_events():
 					if _check_good_is_active(event["requires_active_good"]) != true:
 						continue
 				# 提示事件信息
-				print(event["message"])
+				# print(event["message"])
+				if event_type == "normal":
+					_onwer.emit_signal("message_with_news_window", event["message"])
+				else:
+					_onwer.emit_signal("message_with_diary_window", event["message"])
 				# 执行事件指令
 				for command in event["effect"].split("\n"):
 					console(command)

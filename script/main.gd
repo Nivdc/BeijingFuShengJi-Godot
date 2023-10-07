@@ -24,10 +24,11 @@ func _ready():
 
 	self.connect("game_core_updated", self.update_gui)
 
-	core.add_good("《上海小宝贝》（禁书）",100)
+	self.connect("message_with_diary_window", self._setup_diary_window)
+	self.connect("message_with_news_window", self._setup_news_window)
+
 	update_gui()
 	_init_buttons()
-
 
 func update_gui():
 	_update_trees()
@@ -85,16 +86,44 @@ func _update_player_status():
 
 
 func _init_buttons():
+	var buy_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button
+	buy_button.pressed.connect(self._setup_buy_window)
 	var location_buttons = get_tree().get_nodes_in_group("location_buttons")
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
 
+	$CybercafeWindow.close_requested.connect($CybercafeWindow.hide)
+	var cybercafe_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button5
+	cybercafe_button.pressed.connect(func():$CybercafeWindow.show())
+	var cybercafe_leave_button = $CybercafeWindow/MarginContainer/VBoxContainer/MarginContainer/Button
+	cybercafe_leave_button.pressed.connect(func():$CybercafeWindow.close_requested.emit())
 
 func _setup_diary_window(message: String):
-	$DiaryWindow.show()
 	$DiaryWindow.set_text(message)
+	$DiaryWindow.show()
 
 
 func _setup_news_window(message: String):
-	$NewsWindow.show()
 	$NewsWindow.set_text(message)
+	$NewsWindow.show()
+
+
+func _setup_buy_window():
+	var good_tree = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Tree
+	var selected_good = good_tree.get_selected()
+	if selected_good == null:
+		self.message_with_diary_window.emit("我还没有选定买什么物品呢。")
+		return
+	else:
+		var good_price = selected_good.get_text(1) as int # 获取第二列的价格
+		if good_price > core.player_status["cash"]:
+			if core.player_status["bank_deposit_amount"] > 0:
+				self.message_with_diary_window.emit("俺带的现金不够，去银行提点钱吧。")
+			else:
+				self.message_with_diary_window.emit("俺的现金不够，银行又没有存款，咋办哩?")		
+			return
+		else:
+			var good_name = selected_good.get_text(0)
+			$BuyWindow.set_text_with_name_and_price(good_name, good_price)
+			$BuyWindow.show()
+			return
