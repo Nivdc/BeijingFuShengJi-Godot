@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=10 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://script/cybercafe_window.gd" id="7_03d7o"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
 [ext_resource type="Script" path="res://script/rental_agency_window.gd" id="7_ebvtf"]
+[ext_resource type="Script" path="res://script/post_office_window.gd" id="7_osage"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
@@ -588,8 +589,10 @@ text = "你太黑了！俺告你去！"
 [node name="PostOfficeWindow" type="Window" parent="."]
 title = "给村长还钱"
 initial_position = 2
-size = Vector2i(500, 200)
+size = Vector2i(550, 200)
 visible = false
+unresizable = true
+script = ExtResource("7_osage")
 
 [node name="MarginContainer" type="MarginContainer" parent="PostOfficeWindow"]
 anchors_preset = 15
@@ -610,8 +613,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="PostOfficeWindow/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "村长在电话中说：“铁牛，你欠俺N/A元，快还！”"
+text = "村长在电话中说：“铁牛，你欠俺%d元，快还！”
+"
 vertical_alignment = 1
 autowrap_mode = 3
 
@@ -619,6 +624,7 @@ autowrap_mode = 3
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 
 [node name="Label" type="Label" parent="PostOfficeWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -635,6 +641,7 @@ expand_to_text_length = true
 [node name="HBoxContainer3" type="HBoxContainer" parent="PostOfficeWindow/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 3
 theme_override_constants/separation = 30
 
 [node name="Button" type="Button" parent="PostOfficeWindow/MarginContainer/VBoxContainer/HBoxContainer3"]

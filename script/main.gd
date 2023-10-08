@@ -27,7 +27,7 @@ func _ready():
 	self.connect("message_with_diary_window", self._setup_diary_window)
 	self.connect("message_with_news_window", self._setup_news_window)
 
-	core.add_cash(9999999)
+	# core.add_cash(9999999)
 
 	update_gui()
 	_init_buttons()
@@ -96,10 +96,13 @@ func _init_buttons():
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
 
+	var post_office_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button3
+	post_office_button.pressed.connect(self._setup_post_office_window)
 	var	rental_agency_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button4
 	rental_agency_button.pressed.connect(self._setup_rental_agency_window)
 	var cybercafe_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button5
 	cybercafe_button.pressed.connect(self._setup_cybercafe_window)
+
 
 func _setup_diary_window(message: String):
 	var diary_window_scene = preload("res://scene/diary_window.tscn")
@@ -147,6 +150,28 @@ func _setup_sell_window():
 	var good_name = selected_good.get_text(0)
 	$SellWindow.set_target_good_name(good_name)
 	$SellWindow.show()
+
+
+func _setup_post_office_window():
+	var player_debt           = core.player_status["debt_amount"]
+	var player_cash           = core.player_status["cash"]
+	var player_bank_deposit   = core.player_status["bank_deposit_amount"]
+	var player_total_property = player_cash + player_bank_deposit
+	if player_debt > 0 :
+		$PostOfficeWindow.set_player_debt_and_total_property(player_debt, player_cash)
+		$PostOfficeWindow.show()
+	elif player_debt == 0 :
+		if player_total_property < 1_000 :
+			self.message_with_diary_window.emit("村长嘿嘿笑道：“你没钱,有神经病!”")
+		elif player_total_property > 1_000 and player_total_property < 100_000:
+			self.message_with_diary_window.emit("村长朝俺点头：\"兄弟,您想支援家乡1000元吗？\"")
+		elif player_total_property > 100_000 and player_total_property < 10_000_000:
+			self.message_with_diary_window.emit("村长在电话中朝俺鞠躬:\"富豪!我想把我女儿嫁给您.\"...")
+		elif player_total_property > 10_000_000:
+			self.message_with_diary_window.emit("村长在电话中朝俺下跪，说：\"您简直是我亲爹！\"")
+		# may this happen? I think never.
+		else:
+			self.message_with_diary_window.emit("村长说：\"您是农村年轻人的典范！\"")
 
 
 func _setup_rental_agency_window():
