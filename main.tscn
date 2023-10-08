@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=7 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://script/buy_window.gd" id="4_3ikfk"]
 [ext_resource type="Script" path="res://script/sell_window.gd" id="5_bf6qp"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
-[ext_resource type="PackedScene" uid="uid://bant48aqan5pl" path="res://scene/news_window.tscn" id="7_djpxo"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
@@ -455,8 +454,6 @@ text = "确认"
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "取消"
-
-[node name="NewsWindow" parent="." instance=ExtResource("7_djpxo")]
 
 [node name="BankWindow" type="Window" parent="."]
 title = "银行"

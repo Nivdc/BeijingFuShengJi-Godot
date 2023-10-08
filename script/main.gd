@@ -100,6 +100,7 @@ func _init_buttons():
 	var cybercafe_leave_button = $CybercafeWindow/MarginContainer/VBoxContainer/MarginContainer/Button
 	cybercafe_leave_button.pressed.connect(func():$CybercafeWindow.close_requested.emit())
 
+
 func _setup_diary_window(message: String):
 	var diary_window_scene = preload("res://scene/diary_window.tscn")
 	var new_diary_window = diary_window_scene.instantiate()
@@ -109,8 +110,11 @@ func _setup_diary_window(message: String):
 
 
 func _setup_news_window(message: String):
-	$NewsWindow.set_text(message)
-	$NewsWindow.show()
+	var news_window_scene = preload("res://scene/news_window.tscn")
+	var new_news_window = news_window_scene.instantiate()
+	new_news_window.set_text(message)
+	new_news_window.show()
+	self.add_child(new_news_window)
 
 
 func _setup_buy_window():
