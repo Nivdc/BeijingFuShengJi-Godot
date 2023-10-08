@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://bant48aqan5pl"]
+
+[ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_b1j1s"]
+[ext_resource type="Texture2D" uid="uid://bjj74ddmtw3am" path="res://resource/image/news.bmp" id="2_1kpwg"]
+
+[sub_resource type="GDScript" id="GDScript_37wee"]
+script/source = "extends Window
+
+
+# 明眼人应该已经看出来了，这个window和diary window一摸一样，
+# 所以是可以复用的，但是写到这里的时候，我的大脑已经死机了，此时此刻我不想想太多。
+func _ready():
+	self.connect(\"close_requested\",func():self.hide())
+	var close_button = $MarginContainer/VBoxContainer/MarginContainer/Button
+	close_button.pressed.connect(func():self.emit_signal(\"close_requested\"))
+
+
+func set_text(txt: String):
+	var txt_label = $MarginContainer/VBoxContainer/HBoxContainer/Label
+	txt_label.set_text(txt)
+
+"
+
+[node name="NewsWindow" type="Window"]
+title = "北京新闻"
+initial_position = 2
+size = Vector2i(600, 200)
+visible = false
+transient = true
+exclusive = true
+script = SubResource("GDScript_37wee")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_b1j1s")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_1kpwg")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_right = 200
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "确定"
