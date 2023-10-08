@@ -27,6 +27,8 @@ func _ready():
 	self.connect("message_with_diary_window", self._setup_diary_window)
 	self.connect("message_with_news_window", self._setup_news_window)
 
+	core.add_cash(9999999)
+
 	update_gui()
 	_init_buttons()
 
@@ -94,6 +96,8 @@ func _init_buttons():
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
 
+	var	rental_agency_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button4
+	rental_agency_button.pressed.connect(self._setup_rental_agency_window)
 	var cybercafe_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button5
 	cybercafe_button.pressed.connect(self._setup_cybercafe_window)
 
@@ -143,6 +147,26 @@ func _setup_sell_window():
 	var good_name = selected_good.get_text(0)
 	$SellWindow.set_target_good_name(good_name)
 	$SellWindow.show()
+
+
+func _setup_rental_agency_window():
+	var current_storage_size = core.player_status["storage_size"]
+	if current_storage_size >= 140:
+		self.message_with_diary_window.emit("中介说，您的房子比局长的还大!还租房?")
+		return
+	
+	var player_cash = core.player_status["cash"]
+	if  player_cash < 30000:
+		self.message_with_diary_window.emit("中介说，您没有三万现金就想租房? 一边凉快去!")
+		return
+	else:
+		var price = 0
+		if player_cash <= 30000 :
+			price = 25000
+		else:
+			price = player_cash/2 + 2000
+		$RentalAgencyWindow.set_price_and_storage_size(price, current_storage_size)
+		$RentalAgencyWindow.show()
 
 
 var cybercafe_enter_count := 0

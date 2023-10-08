@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=9 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://script/sell_window.gd" id="5_bf6qp"]
 [ext_resource type="Script" path="res://script/cybercafe_window.gd" id="7_03d7o"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
+[ext_resource type="Script" path="res://script/rental_agency_window.gd" id="7_ebvtf"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
@@ -651,6 +652,7 @@ title = "租房中介"
 initial_position = 2
 size = Vector2i(600, 200)
 visible = false
+script = ExtResource("7_ebvtf")
 
 [node name="MarginContainer" type="MarginContainer" parent="RentalAgencyWindow"]
 anchors_preset = 15
@@ -675,8 +677,8 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = 0
 text = "欢迎来到北京“扁子居”租房中介公司！
 我们的理念：免费看房，成交补款，童叟无欺，无耻无畏！
-想把生意做大？您现在的房子只能放N/A个物品，太小啦！
-您花费N/A元可以租能放N/A个物品的房子。"
+想把生意做大？您现在的房子只能放%d个物品，太小啦！
+您花费%d元可以租能放%d个物品的房子。"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
