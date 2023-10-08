@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=8 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
 [ext_resource type="PackedScene" uid="uid://bjsqakdst865j" path="res://scene/introduction_window.tscn" id="3_ricqv"]
 [ext_resource type="Script" path="res://script/buy_window.gd" id="4_3ikfk"]
 [ext_resource type="Script" path="res://script/sell_window.gd" id="5_bf6qp"]
+[ext_resource type="Script" path="res://script/cybercafe_window.gd" id="7_03d7o"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
 
 [node name="Root" type="Node"]
@@ -703,6 +704,7 @@ visible = false
 transient = true
 exclusive = true
 unresizable = true
+script = ExtResource("7_03d7o")
 
 [node name="MarginContainer" type="MarginContainer" parent="CybercafeWindow"]
 anchors_preset = 15

@@ -94,12 +94,8 @@ func _init_buttons():
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
 
-	$CybercafeWindow.close_requested.connect($CybercafeWindow.hide)
 	var cybercafe_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button5
-	cybercafe_button.pressed.connect(func():$CybercafeWindow.show())
-	var cybercafe_leave_button = $CybercafeWindow/MarginContainer/VBoxContainer/MarginContainer/Button
-	cybercafe_leave_button.pressed.connect(func():$CybercafeWindow.close_requested.emit())
-
+	cybercafe_button.pressed.connect(self._setup_cybercafe_window)
 
 func _setup_diary_window(message: String):
 	var diary_window_scene = preload("res://scene/diary_window.tscn")
@@ -147,3 +143,14 @@ func _setup_sell_window():
 	var good_name = selected_good.get_text(0)
 	$SellWindow.set_target_good_name(good_name)
 	$SellWindow.show()
+
+
+var cybercafe_enter_count := 0
+func _setup_cybercafe_window():
+	if cybercafe_enter_count < 2:
+		$CybercafeWindow.show()
+		cybercafe_enter_count+=1
+	elif core.player_status["cash"] < 15:
+		self.message_with_diary_window.emit("进网吧至少身上要带15元，呵呵，取钱再来。")
+	else:
+		self.message_with_diary_window.emit("村长放出话来：你别总是在网吧里鬼混，快去做正经买卖! ")
