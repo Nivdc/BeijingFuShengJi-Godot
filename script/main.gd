@@ -88,6 +88,8 @@ func _update_player_status():
 func _init_buttons():
 	var buy_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button
 	buy_button.pressed.connect(self._setup_buy_window)
+	var sell_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/VBoxContainer/Button
+	sell_button.pressed.connect(self._setup_sell_window)
 	var location_buttons = get_tree().get_nodes_in_group("location_buttons")
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
@@ -114,16 +116,27 @@ func _setup_buy_window():
 	if selected_good == null:
 		self.message_with_diary_window.emit("我还没有选定买什么物品呢。")
 		return
-	else:
-		var good_price = selected_good.get_text(1) as int # 获取第二列的价格
-		if good_price > core.player_status["cash"]:
-			if core.player_status["bank_deposit_amount"] > 0:
-				self.message_with_diary_window.emit("俺带的现金不够，去银行提点钱吧。")
-			else:
-				self.message_with_diary_window.emit("俺的现金不够，银行又没有存款，咋办哩?")		
-			return
+	
+	var good_price = selected_good.get_text(1) as int # 获取第二列的价格
+	if good_price > core.player_status["cash"]:
+		if core.player_status["bank_deposit_amount"] > 0:
+			self.message_with_diary_window.emit("俺带的现金不够，去银行提点钱吧。")
 		else:
-			var good_name = selected_good.get_text(0)
-			$BuyWindow.set_text_with_name_and_price(good_name, good_price)
-			$BuyWindow.show()
-			return
+			self.message_with_diary_window.emit("俺的现金不够，银行又没有存款，咋办哩?")		
+		return
+
+	var good_name = selected_good.get_text(0)
+	$BuyWindow.set_target_good_name_and_price(good_name, good_price)
+	$BuyWindow.show()
+
+
+func _setup_sell_window():
+	var storage_tree = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Tree
+	var selected_good = storage_tree.get_selected()
+	if selected_good == null:
+		self.message_with_diary_window.emit("我还没有选定卖什么物品呢。")
+		return
+
+	var good_name = selected_good.get_text(0)
+	$SellWindow.set_target_good_name(good_name)
+	$SellWindow.show()

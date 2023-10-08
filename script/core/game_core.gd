@@ -171,7 +171,7 @@ func heal_player(heal_point: int):
 
 func buy_good(good_name:String, number:int, price:=-1):
 	assert(_verify_good_name(good_name) == true, "Error: Try to buy undefined good.")
-
+	
 	if _check_good_is_active(good_name) == false:
 		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
 		return
@@ -179,6 +179,10 @@ func buy_good(good_name:String, number:int, price:=-1):
 	if player_status["used_storage_size"]+number > player_status["storage_size"]:
 		print(player_status["used_storage_size"]+number)
 		print("好可惜!俺租的房子太小，只能放%d个物品。租更大的房子?" % player_status["storage_size"])
+		return
+
+	if number < 0:
+		print("老板表示他听不懂咱说的是多少")
 		return
 	
 	if price == -1:# 未输入价格，系统计算价格
@@ -211,6 +215,9 @@ func sell_good(good_name:String, number:int):
 	if player_status["storage"][good_name]["number"] - number < 0:
 		print("我没有足够的 %s。" % good_name)
 	
+	if number < 0:
+		print("俺不会魔术，没法无中生有。")
+
 	var price = _get_good_price(good_name)
 	var total_sell_price = number * price
 	reduce_good(good_name, number)
