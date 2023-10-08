@@ -26,7 +26,7 @@ var _event_type_list = []
 func console(command: String):
 	var expr = Expression.new()
 	expr.parse(command)
-	expr.execute([],self)
+	return expr.execute([],self)
 
 func add_cash(change: int):
 	player_status["cash"] += change
@@ -37,7 +37,7 @@ func reduce_cash(change: int):
 
 func reduce_cash_by_percentage_with_notice(percentage: int):
 	player_status["cash"] -= convert(player_status["cash"] * (percentage * 0.01), TYPE_INT)
-	print("俺的银子减少了%d%%。" % percentage)
+	return "俺的银子减少了%d%%。" % percentage
 
 func add_bank_deposit_amount(change: int):
 	player_status["bank_deposit_amount"] += change
@@ -49,7 +49,7 @@ func reduce_bank_deposit_amount(change: int):
 # ......它为什么这么长？
 func reduce_bank_deposit_amount_by_percentage_with_notice(percentage: int):
 	player_status["bank_deposit_amount"] -= convert(player_status["bank_deposit_amount"] * (percentage * 0.01), TYPE_INT)
-	print("俺的存款减少了%d%%，哎呀！" % percentage)
+	return "俺的存款减少了%d%%，哎呀！" % percentage
 
 func add_debt_amount(change: int):
 	player_status["debt_amount"] += change
@@ -72,7 +72,7 @@ func reduce_health(change: int):
 func reduce_health_with_notice(change: int):
 	var hp = player_status["health"]
 	player_status["health"] = hp-change if hp-change > 0 else 0
-	print("俺的健康减少了%d点。" % change)
+	return "俺的健康减少了%d点。" % change
 
 func add_reputation(change: int):
 	var rep     = player_status["reputation"]
@@ -420,15 +420,18 @@ func _random_activate_events():
 				if event.has("requires_active_good"):
 					if _check_good_is_active(event["requires_active_good"]) != true:
 						continue
-				# 提示事件信息
-				# print(event["message"])
-				if event_type == "normal":
-					_onwer.emit_signal("message_with_news_window", event["message"])
-				else:
-					_onwer.emit_signal("message_with_diary_window", event["message"])
-				# 执行事件指令
+				# 接下来执行事件，先获取事件的提示信息
+				var event_message = event["message"]
+				# 执行事件指令，进一步合成提示信息。
 				for command in event["effect"].split("\n"):
-					console(command)
+					var result = console(command)
+					if typeof(result) == TYPE_STRING:
+						event_message += result
+				# 提示事件信息
+				if event_type == "normal":
+					_onwer.emit_signal("message_with_news_window", event_message)
+				else:
+					_onwer.emit_signal("message_with_diary_window", event_message)
 				#播放音效
 				if event.has("sound"):
 					pass
@@ -458,3 +461,4 @@ func _forced_medical_event():
 			new_debt
 			]
 		)
+	# ...刚注意到这玩意好像缺了点东西，稍后完善。

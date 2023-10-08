@@ -1,32 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=8 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
 [ext_resource type="PackedScene" uid="uid://bjsqakdst865j" path="res://scene/introduction_window.tscn" id="3_ricqv"]
 [ext_resource type="Script" path="res://script/buy_window.gd" id="4_3ikfk"]
-[ext_resource type="Script" path="res://script/diary_window.gd" id="4_pf8c1"]
-[ext_resource type="Texture2D" uid="uid://bd06hy7tyvnb0" path="res://resource/image/riji.bmp" id="4_r80o3"]
 [ext_resource type="Script" path="res://script/sell_window.gd" id="5_bf6qp"]
-[ext_resource type="Texture2D" uid="uid://bjj74ddmtw3am" path="res://resource/image/news.bmp" id="6_e4t7r"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
-
-[sub_resource type="GDScript" id="GDScript_37wee"]
-script/source = "extends Window
-
-
-# 明眼人应该已经看出来了，这个window和diary window一摸一样，
-# 所以是可以复用的，但是写到这里的时候，我的大脑已经死机了，此时此刻我不想想太多。
-func _ready():
-	self.connect(\"close_requested\",func():self.hide())
-	var close_button = $MarginContainer/VBoxContainer/MarginContainer/Button
-	close_button.pressed.connect(func():self.emit_signal(\"close_requested\"))
-
-
-func set_text(txt: String):
-	var txt_label = $MarginContainer/VBoxContainer/HBoxContainer/Label
-	txt_label.set_text(txt)
-
-"
+[ext_resource type="PackedScene" uid="uid://bant48aqan5pl" path="res://scene/news_window.tscn" id="7_djpxo"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
@@ -476,108 +456,7 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "取消"
 
-[node name="DiaryWindow" type="Window" parent="."]
-title = "我在北京的岁月"
-initial_position = 2
-size = Vector2i(600, 200)
-visible = false
-transient = true
-exclusive = true
-script = ExtResource("4_pf8c1")
-
-[node name="MarginContainer" type="MarginContainer" parent="DiaryWindow"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_c1l05")
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="DiaryWindow/MarginContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="DiaryWindow/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="TextureRect" type="TextureRect" parent="DiaryWindow/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("4_r80o3")
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="DiaryWindow/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(500, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="DiaryWindow/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_right = 200
-
-[node name="Button" type="Button" parent="DiaryWindow/MarginContainer/VBoxContainer/MarginContainer"]
-layout_mode = 2
-text = "关上日记本"
-
-[node name="NewsWindow" type="Window" parent="."]
-title = "北京新闻"
-initial_position = 2
-size = Vector2i(600, 200)
-visible = false
-transient = true
-exclusive = true
-script = SubResource("GDScript_37wee")
-
-[node name="MarginContainer" type="MarginContainer" parent="NewsWindow"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_c1l05")
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="NewsWindow/MarginContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="NewsWindow/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="TextureRect" type="TextureRect" parent="NewsWindow/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("6_e4t7r")
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="NewsWindow/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="NewsWindow/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_right = 200
-
-[node name="Button" type="Button" parent="NewsWindow/MarginContainer/VBoxContainer/MarginContainer"]
-layout_mode = 2
-text = "确定"
+[node name="NewsWindow" parent="." instance=ExtResource("7_djpxo")]
 
 [node name="BankWindow" type="Window" parent="."]
 title = "银行"

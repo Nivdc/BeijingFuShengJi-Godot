@@ -101,8 +101,11 @@ func _init_buttons():
 	cybercafe_leave_button.pressed.connect(func():$CybercafeWindow.close_requested.emit())
 
 func _setup_diary_window(message: String):
-	$DiaryWindow.set_text(message)
-	$DiaryWindow.show()
+	var diary_window_scene = preload("res://scene/diary_window.tscn")
+	var new_diary_window = diary_window_scene.instantiate()
+	new_diary_window.set_text(message)
+	new_diary_window.show()
+	self.add_child(new_diary_window)
 
 
 func _setup_news_window(message: String):
