@@ -29,6 +29,7 @@ theme = ExtResource("1_c1l05")
 layout_mode = 2
 
 [node name="MenuBar" type="MenuBar" parent="MainContainer/NavBar"]
+visible = false
 layout_mode = 2
 
 [node name="系统" type="PopupMenu" parent="MainContainer/NavBar/MenuBar"]
@@ -40,8 +41,6 @@ item_1/text = "游戏设置"
 item_1/id = 1
 item_2/text = "退出"
 item_2/id = 2
-
-[node name="重要场所" type="PopupMenu" parent="MainContainer/NavBar/MenuBar"]
 
 [node name="MarginContainer" type="MarginContainer" parent="MainContainer"]
 layout_mode = 2
@@ -328,7 +327,9 @@ size_flags_horizontal = 3
 text = "网吧"
 
 [node name="IntroWindow" parent="." instance=ExtResource("3_ricqv")]
-visible = false
+gui_embed_subwindows = true
+transient = false
+exclusive = false
 
 [node name="BuyWindow" type="Window" parent="."]
 title = "买多少？"

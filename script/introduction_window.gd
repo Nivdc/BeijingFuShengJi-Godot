@@ -4,8 +4,8 @@ signal game_core_readied
 
 func _ready():
 	self.connect("close_requested",func():self.hide())
-	self.connect("game_core_readied",func():$Button.set_disabled(false))
-	$Button.pressed.connect(self._start_game)
+	self.connect("game_core_readied",func():$VBoxContainer/Button.set_disabled(false))
+	$VBoxContainer/Button.pressed.connect(self._start_game)
 
 
 func _start_game():

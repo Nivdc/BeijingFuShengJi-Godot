@@ -19,7 +19,7 @@ func _ready():
 	# self.connect("game_started",func():self.get_window().show())
 
 	# 那就暂时隐藏主窗口里的内容，等待游戏开始
-	# $MainContainer.hide()
+	$MainContainer.hide()
 	self.connect("game_started",func():$MainContainer.show())
 
 	self.connect("game_core_updated", self.update_gui)
