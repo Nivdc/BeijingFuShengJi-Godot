@@ -28,6 +28,7 @@ func _ready():
 	self.connect("message_with_news_window", self._setup_news_window)
 
 	# core.add_cash(9999999)
+	# core.reduce_health(10)
 
 	update_gui()
 	_init_buttons()
@@ -96,6 +97,8 @@ func _init_buttons():
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
 
+	var hospital_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button2
+	hospital_button.pressed.connect(self._setup_hospital_window)
 	var post_office_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button3
 	post_office_button.pressed.connect(self._setup_post_office_window)
 	var	rental_agency_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button4
@@ -150,6 +153,14 @@ func _setup_sell_window():
 	var good_name = selected_good.get_text(0)
 	$SellWindow.set_target_good_name(good_name)
 	$SellWindow.show()
+
+
+func _setup_hospital_window():
+	if core.player_status["health"] < core.environment_settings["max_health"]:
+		$HospitalWindow.set_game_core(core)
+		$HospitalWindow.show()
+	else:
+		self.message_with_diary_window.emit("小护士笑咪咪地望着俺：\"大哥！神经科这边挂号.\"")
 
 
 func _setup_post_office_window():

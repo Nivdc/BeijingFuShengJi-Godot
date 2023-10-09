@@ -162,11 +162,12 @@ func repay_debt(number: int):
 func heal_player(heal_point: int):
 	var total_price = heal_point * environment_settings["healing_cost_per_point_of_health"]
 	if player_status["cash"] < total_price:
-		print("医生说，“钱不够哎! 拒绝治疗。")
+		_onwer.emit_signal("message_with_diary_window", "医生说，“钱不够哎! 拒绝治疗。")
 		return
 	
 	reduce_cash(total_price)
 	add_health(heal_point)
+	_onwer.emit_signal("game_core_updated")
 
 
 func buy_good(good_name:String, number:int, price:=-1):
