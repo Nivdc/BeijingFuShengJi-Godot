@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=12 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://script/buy_window.gd" id="4_3ikfk"]
 [ext_resource type="Script" path="res://script/sell_window.gd" id="5_bf6qp"]
 [ext_resource type="Script" path="res://script/hospital_window.gd" id="6_60gtm"]
+[ext_resource type="Script" path="res://script/bank_window.gd" id="6_noup3"]
 [ext_resource type="Script" path="res://script/cybercafe_window.gd" id="7_03d7o"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
 [ext_resource type="Script" path="res://script/rental_agency_window.gd" id="7_ebvtf"]
@@ -464,6 +465,7 @@ title = "银行"
 initial_position = 2
 size = Vector2i(500, 200)
 visible = false
+script = ExtResource("6_noup3")
 
 [node name="MarginContainer" type="MarginContainer" parent="BankWindow"]
 anchors_preset = 15
@@ -486,7 +488,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "客户您好，您的现金是N/A，您的存款是N/A，请问您要..."
+text = "客户您好，您的现金是%d，您的存款是%d，请问您要..."
 vertical_alignment = 1
 autowrap_mode = 3
 
@@ -512,6 +514,118 @@ text = "取款"
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "取消"
+
+[node name="DepositWindow" type="Window" parent="BankWindow"]
+title = "现金交易"
+initial_position = 2
+size = Vector2i(550, 200)
+visible = false
+unresizable = true
+
+[node name="MarginContainer" type="MarginContainer" parent="BankWindow/DepositWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BankWindow/DepositWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="BankWindow/DepositWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
+
+[node name="Label" type="Label" parent="BankWindow/DepositWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "您存多少钱？："
+
+[node name="LineEdit" type="LineEdit" parent="BankWindow/DepositWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+max_length = 10
+expand_to_text_length = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="BankWindow/DepositWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Button" type="Button" parent="BankWindow/DepositWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "确认交易"
+
+[node name="Button2" type="Button" parent="BankWindow/DepositWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "取消交易"
+
+[node name="WithdrawWindow" type="Window" parent="BankWindow"]
+title = "现金交易"
+initial_position = 2
+size = Vector2i(550, 200)
+visible = false
+unresizable = true
+
+[node name="MarginContainer" type="MarginContainer" parent="BankWindow/WithdrawWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_c1l05")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BankWindow/WithdrawWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="BankWindow/WithdrawWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
+
+[node name="Label" type="Label" parent="BankWindow/WithdrawWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "您存多少钱？："
+
+[node name="LineEdit" type="LineEdit" parent="BankWindow/WithdrawWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+max_length = 10
+expand_to_text_length = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="BankWindow/WithdrawWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Button" type="Button" parent="BankWindow/WithdrawWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "确认交易"
+
+[node name="Button2" type="Button" parent="BankWindow/WithdrawWindow/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "取消交易"
 
 [node name="HospitalWindow" type="Window" parent="."]
 title = "在医院里"

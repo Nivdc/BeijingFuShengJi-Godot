@@ -93,10 +93,13 @@ func _init_buttons():
 	buy_button.pressed.connect(self._setup_buy_window)
 	var sell_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/VBoxContainer/Button
 	sell_button.pressed.connect(self._setup_sell_window)
+
 	var location_buttons = get_tree().get_nodes_in_group("location_buttons")
 	for location_button in location_buttons:
 		location_button.pressed.connect(func():core.move(location_button.text))
 
+	var bank_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button
+	bank_button.pressed.connect(self._setup_bank_window)
 	var hospital_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button2
 	hospital_button.pressed.connect(self._setup_hospital_window)
 	var post_office_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button3
@@ -153,6 +156,11 @@ func _setup_sell_window():
 	var good_name = selected_good.get_text(0)
 	$SellWindow.set_target_good_name(good_name)
 	$SellWindow.show()
+
+
+func _setup_bank_window():
+	$BankWindow.set_game_core(core)
+	$BankWindow.show()
 
 
 func _setup_hospital_window():
