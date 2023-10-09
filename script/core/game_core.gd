@@ -140,6 +140,7 @@ func deposit_money_to_bank(number: int):
 	
 	reduce_cash(number)
 	add_bank_deposit_amount(number)
+	_onwer.emit_signal("game_core_updated")
 
 func withdraw_money_from_bank(number: int):
 	if player_status["bank_deposit_amount"] < number:
@@ -148,6 +149,7 @@ func withdraw_money_from_bank(number: int):
 	
 	reduce_bank_deposit_amount(number)
 	add_cash(number)
+	_onwer.emit_signal("game_core_updated")
 
 
 func repay_debt(number: int):

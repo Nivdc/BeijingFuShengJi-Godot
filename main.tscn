@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://boyaqhh06nylq"]
+[gd_scene load_steps=14 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
@@ -10,7 +10,9 @@
 [ext_resource type="Script" path="res://script/cybercafe_window.gd" id="7_03d7o"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
 [ext_resource type="Script" path="res://script/rental_agency_window.gd" id="7_ebvtf"]
+[ext_resource type="Script" path="res://script/deposit_window.gd" id="7_jw23d"]
 [ext_resource type="Script" path="res://script/post_office_window.gd" id="7_osage"]
+[ext_resource type="Script" path="res://script/withdraw_window.gd" id="8_ngpqi"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
@@ -521,6 +523,7 @@ initial_position = 2
 size = Vector2i(550, 200)
 visible = false
 unresizable = true
+script = ExtResource("7_jw23d")
 
 [node name="MarginContainer" type="MarginContainer" parent="BankWindow/DepositWindow"]
 anchors_preset = 15
@@ -577,6 +580,7 @@ initial_position = 2
 size = Vector2i(550, 200)
 visible = false
 unresizable = true
+script = ExtResource("8_ngpqi")
 
 [node name="MarginContainer" type="MarginContainer" parent="BankWindow/WithdrawWindow"]
 anchors_preset = 15
