@@ -34,13 +34,11 @@ layout_mode = 2
 
 [node name="系统" type="PopupMenu" parent="MainContainer/NavBar/MenuBar"]
 size = Vector2i(130, 112)
-item_count = 3
+item_count = 2
 item_0/text = "新游戏"
 item_0/id = 0
-item_1/text = "游戏设置"
+item_1/text = "退出"
 item_1/id = 1
-item_2/text = "退出"
-item_2/id = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MainContainer"]
 layout_mode = 2
@@ -327,7 +325,6 @@ size_flags_horizontal = 3
 text = "网吧"
 
 [node name="IntroWindow" parent="." instance=ExtResource("3_ricqv")]
-gui_embed_subwindows = true
 transient = false
 exclusive = false
 

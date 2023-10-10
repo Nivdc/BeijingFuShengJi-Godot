@@ -116,7 +116,7 @@ func add_good_directly(good_name:String, number:int, record_price:=-1):
 # 有些事件会直接使用这个函数，所以要检测两次。
 func add_good(good_name:String, number:int, record_price:=-1):
 	if player_status["used_storage_size"]+number > player_status["storage_size"]:
-		print("好可惜!俺租的房子太小，只能放%d个物品。" % player_status["storage_size"])
+		_onwer.message_with_diary_window.emit("好可惜!俺租的房子太小，只能放%d个物品。" % player_status["storage_size"])
 		return
 
 	add_good_directly(good_name, number, record_price)
@@ -135,7 +135,7 @@ func reduce_good(good_name:String, number:int):
 
 func deposit_money_to_bank(number: int):
 	if player_status["cash"] < number:
-		print("我没有那么多现金存进银行。")
+		_onwer.message_with_diary_window.emit("我没有那么多现金存进银行。")
 		return
 	
 	reduce_cash(number)
@@ -144,7 +144,7 @@ func deposit_money_to_bank(number: int):
 
 func withdraw_money_from_bank(number: int):
 	if player_status["bank_deposit_amount"] < number:
-		print("我的银行账户里没有那么多钱。")
+		_onwer.message_with_diary_window.emit("我的银行账户里没有那么多钱。")
 		return
 	
 	reduce_bank_deposit_amount(number)
@@ -154,7 +154,7 @@ func withdraw_money_from_bank(number: int):
 
 func repay_debt(number: int):
 	if player_status["cash"] < number:
-		print("我没有那么多现金偿还债务。")
+		_onwer.message_with_diary_window.emit("我没有那么多现金偿还债务。")
 		return
 	
 	reduce_cash(number)
@@ -176,16 +176,16 @@ func buy_good(good_name:String, number:int, price:=-1):
 	assert(_verify_good_name(good_name) == true, "Error: Try to buy undefined good.")
 	
 	if _check_good_is_active(good_name) == false:
-		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
+		_onwer.message_with_diary_window.emit("哦？仿佛没有人在这里做 %s 生意。" % good_name)
 		return
 	
 	if player_status["used_storage_size"]+number > player_status["storage_size"]:
-		print(player_status["used_storage_size"]+number)
-		print("好可惜!俺租的房子太小，只能放%d个物品。租更大的房子?" % player_status["storage_size"])
+		_onwer.message_with_diary_window.emit(player_status["used_storage_size"]+number)
+		_onwer.message_with_diary_window.emit("好可惜!俺租的房子太小，只能放%d个物品。租更大的房子?" % player_status["storage_size"])
 		return
 
 	if number < 0:
-		print("老板表示他听不懂咱说的是多少")
+		_onwer.message_with_diary_window.emit("老板表示他听不懂咱说的是多少")
 		return
 	
 	if price == -1:# 未输入价格，系统计算价格
@@ -195,9 +195,9 @@ func buy_good(good_name:String, number:int, price:=-1):
 	
 	if total_price > player_status["cash"]:
 		if player_status["bank_deposit_amount"] > 0:
-			print("俺带的现金不够，去银行提点钱吧。")
+			_onwer.message_with_diary_window.emit("俺带的现金不够，去银行提点钱吧。")
 		else:
-			print("俺的现金不够，银行又没有存款，咋办哩?")		
+			_onwer.message_with_diary_window.emit("俺的现金不够，银行又没有存款，咋办哩?")		
 		return
 	
 	reduce_cash(total_price)
@@ -209,17 +209,17 @@ func sell_good(good_name:String, number:int):
 	assert(_verify_good_name(good_name) == true, "Error: Try to sell undefined good.")
 
 	if _check_good_is_active(good_name) == false:
-		print("哦？仿佛没有人在这里做 %s 生意。" % good_name)
+		_onwer.message_with_diary_window.emit("哦？仿佛没有人在这里做 %s 生意。" % good_name)
 		return
 	
 	if player_status["storage"].has(good_name) != true:
-		print("我没有 %s。" % good_name)
+		_onwer.message_with_diary_window.emit("我没有 %s。" % good_name)
 	
 	if player_status["storage"][good_name]["number"] - number < 0:
-		print("我没有足够的 %s。" % good_name)
+		_onwer.message_with_diary_window.emit("我没有足够的 %s。" % good_name)
 	
 	if number < 0:
-		print("俺不会魔术，没法无中生有。")
+		_onwer.message_with_diary_window.emit("俺不会魔术，没法无中生有。")
 
 	var price = _get_good_price(good_name)
 	var total_sell_price = number * price
@@ -262,32 +262,32 @@ func move(new_location: String):
 	# 在继续之前检查一下玩家是不是死了
 	if player_status["health"] == 0:
 		# 播放音效
-		print("俺倒在街头,身边日记本上写着：\"北京，我将再来!\"")
+		_onwer.message_with_diary_window.emit("俺倒在街头,身边日记本上写着：\"北京，我将再来!\"")
 		_game_over()
 		return
 
 	if player_status["health"] < 20 and player_status["health"] > 0:
-		print("俺的健康..健康危机..快去医..")
+		_onwer.message_with_diary_window.emit("俺的健康..健康危机..快去医..")
 
 	if player_status["health"] < 85 and time_left > 3:
 		_forced_medical_event()
 
 	if player_status["debt_amount"] > 100_000:
-		print("俺欠钱太多，村长叫一群老乡揍了俺一顿!")
+		_onwer.message_with_diary_window.emit("俺欠钱太多，村长叫一群老乡揍了俺一顿!")
 		reduce_health(30)
 
 	if time_left == 1:
-		print("俺明天回家乡，快把全部货物卖掉。")
+		_onwer.message_with_diary_window.emit("俺明天回家乡，快把全部货物卖掉。")
 	
 	if time_left == 0:
-		print("俺已经在北京40天了，该回去结婚去了。")
+		_onwer.message_with_diary_window.emit("俺已经在北京40天了，该回去结婚去了。")
 		if player_status["storage"].is_empty() != true:
 			var remaining_goods_list = []
-			print("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
+			_onwer.message_with_diary_window.emit("player_status : \n", str(player_status).replace(", \"", ",\n  \""))
 			for good_name in player_status["storage"].keys():
 				remaining_goods_list.append(good_name)
 				sell_good(good_name, player_status["storage"][good_name]["number"])
-			print("系统替我卖了剩余货物: %s。" % ", ".join(remaining_goods_list))
+			_onwer.message_with_diary_window.emit("系统替我卖了剩余货物: %s。" % ", ".join(remaining_goods_list))
 		_game_over()
 		return
 	
@@ -408,7 +408,7 @@ func _set_main_window_title(title: String):
 
 func _game_over():
 	_game_state = GAME_OVER
-	print("游戏已结束")
+	_onwer.message_with_diary_window.emit("游戏已结束")
 
 func _random_activate_events():
 	for event_type in _event_type_list:
@@ -451,7 +451,7 @@ func _forced_medical_event():
 	]
 	var random_delay_day = 1 + _random_number(2)
 	var new_debt = random_delay_day * (1000 + _random_number(8500))
-	print(	"""
+	_onwer.message_with_diary_window.emit(	"""
 			由于不注意身体,我被人发现昏迷在%s附近的%s。
 			好心的市民把我抬到了医院，医生让我治疗%d天。
 			村长让人为我垫付了住院费用%d元。
@@ -464,4 +464,6 @@ func _forced_medical_event():
 			new_debt
 			]
 		)
-	# ...刚注意到这玩意好像缺了点东西，稍后完善。
+	player_status["elapsed_time"] += random_delay_day
+	add_debt_amount(new_debt)
+	add_health(10)
