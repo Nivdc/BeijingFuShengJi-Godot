@@ -89,6 +89,9 @@ func _update_player_status():
 
 
 func _init_buttons():
+	var popup_menu = $MainContainer/NavBar/MenuBar/系统
+	popup_menu.id_pressed.connect(self.popup_menu_click)
+
 	var buy_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button
 	buy_button.pressed.connect(self._setup_buy_window)
 	var sell_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/VBoxContainer/Button
@@ -108,6 +111,14 @@ func _init_buttons():
 	rental_agency_button.pressed.connect(self._setup_rental_agency_window)
 	var cybercafe_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button5
 	cybercafe_button.pressed.connect(self._setup_cybercafe_window)
+
+
+func popup_menu_click(id: int):
+	match id:
+		0:
+			core.restart_game()
+		1:
+			get_tree().quit()
 
 
 func _setup_diary_window(message: String):

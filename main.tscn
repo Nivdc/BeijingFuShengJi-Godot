@@ -29,7 +29,6 @@ theme = ExtResource("1_c1l05")
 layout_mode = 2
 
 [node name="MenuBar" type="MenuBar" parent="MainContainer/NavBar"]
-visible = false
 layout_mode = 2
 
 [node name="系统" type="PopupMenu" parent="MainContainer/NavBar/MenuBar"]
