@@ -140,7 +140,7 @@ func deposit_money_to_bank(number: int):
 	
 	reduce_cash(number)
 	add_bank_deposit_amount(number)
-	_onwer.emit_signal("game_core_updated")
+	_onwer.game_core_updated.emit()
 
 func withdraw_money_from_bank(number: int):
 	if player_status["bank_deposit_amount"] < number:
@@ -149,7 +149,7 @@ func withdraw_money_from_bank(number: int):
 	
 	reduce_bank_deposit_amount(number)
 	add_cash(number)
-	_onwer.emit_signal("game_core_updated")
+	_onwer.game_core_updated.emit()
 
 
 func repay_debt(number: int):
@@ -164,12 +164,12 @@ func repay_debt(number: int):
 func heal_player(heal_point: int):
 	var total_price = heal_point * environment_settings["healing_cost_per_point_of_health"]
 	if player_status["cash"] < total_price:
-		_onwer.emit_signal("message_with_diary_window", "医生说，“钱不够哎! 拒绝治疗。")
+		_onwer.message_with_diary_window.emit("医生说，“钱不够哎! 拒绝治疗。")
 		return
 	
 	reduce_cash(total_price)
 	add_health(heal_point)
-	_onwer.emit_signal("game_core_updated")
+	_onwer.game_core_updated.emit()
 
 
 func buy_good(good_name:String, number:int, price:=-1):
@@ -202,7 +202,7 @@ func buy_good(good_name:String, number:int, price:=-1):
 	
 	reduce_cash(total_price)
 	add_good(good_name, number, price)
-	_onwer.emit_signal("game_core_updated")
+	_onwer.game_core_updated.emit()
 
 
 func sell_good(good_name:String, number:int):
@@ -225,7 +225,7 @@ func sell_good(good_name:String, number:int):
 	var total_sell_price = number * price
 	reduce_good(good_name, number)
 	add_cash(total_sell_price)
-	_onwer.emit_signal("game_core_updated")
+	_onwer.game_core_updated.emit()
 
 
 func _set_good_price_as_price_multiple(good_name: String, multiple_value: int):
@@ -293,7 +293,7 @@ func move(new_location: String):
 	
 	player_status["elapsed_time"] += 1
 	_set_main_window_title("北京浮生记 ( %s/%s ) "% [player_status["elapsed_time"], environment_settings["time_limit"]])
-	_onwer.emit_signal("game_core_updated")
+	_onwer.game_core_updated.emit()
 
 func restart_game():
 	_init(_onwer)
@@ -305,7 +305,7 @@ func _init(onwer: Node):
 	_init_global_variables()
 	_set_main_window_title("北京浮生记 ( %s/%s ) "% [player_status["elapsed_time"], environment_settings["time_limit"]])
 	_game_state = GAME_RUNNING
-	_onwer.emit_signal("game_core_readied")
+	_onwer.game_core_readied.emit()
 
 
 func _init_load_data():
@@ -432,9 +432,9 @@ func _random_activate_events():
 						event_message += result
 				# 提示事件信息
 				if event_type == "normal":
-					_onwer.emit_signal("message_with_news_window", event_message)
+					_onwer.message_with_news_window.emit(event_message)
 				else:
-					_onwer.emit_signal("message_with_diary_window", event_message)
+					_onwer.message_with_diary_window.emit(event_message)
 				#播放音效
 				if event.has("sound"):
 					pass
