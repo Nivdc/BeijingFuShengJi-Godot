@@ -950,3 +950,5 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "离开网吧
 "
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

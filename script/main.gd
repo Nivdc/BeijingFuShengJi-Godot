@@ -38,6 +38,12 @@ func update_gui():
 	_update_player_status()
 
 
+func play_sound(sound_name: String):
+	var sound = load("res://resource/sound/" + sound_name)
+	$AudioStreamPlayer.stream = sound
+	$AudioStreamPlayer.play()
+
+
 func _update_trees():
 	var good_tree = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Tree
 	good_tree.clear()
@@ -90,7 +96,7 @@ func _update_player_status():
 
 func _init_buttons():
 	var popup_menu = $MainContainer/NavBar/MenuBar/系统
-	popup_menu.id_pressed.connect(self.popup_menu_click)
+	popup_menu.id_pressed.connect(self._popup_menu_click)
 
 	var buy_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button
 	buy_button.pressed.connect(self._setup_buy_window)
@@ -99,7 +105,7 @@ func _init_buttons():
 
 	var location_buttons = get_tree().get_nodes_in_group("location_buttons")
 	for location_button in location_buttons:
-		location_button.pressed.connect(func():core.move(location_button.text))
+		location_button.pressed.connect(func():self._move_to(location_button.text))
 
 	var bank_button = $MainContainer/MarginContainer/VBoxContainer/HBoxContainer3/Button
 	bank_button.pressed.connect(self._setup_bank_window)
@@ -113,7 +119,7 @@ func _init_buttons():
 	cybercafe_button.pressed.connect(self._setup_cybercafe_window)
 
 
-func popup_menu_click(id: int):
+func _popup_menu_click(id: int):
 	match id:
 		0:
 			core.restart_game()
@@ -169,9 +175,14 @@ func _setup_sell_window():
 	$SellWindow.show()
 
 
+func _move_to(location_name: String):
+	core.move(location_name)
+	play_sound("shutdoor.wav")
+
 func _setup_bank_window():
 	$BankWindow.set_game_core(core)
 	$BankWindow.show()
+	play_sound("opendoor.wav")
 
 
 func _setup_hospital_window():
@@ -180,6 +191,8 @@ func _setup_hospital_window():
 		$HospitalWindow.show()
 	else:
 		self.message_with_diary_window.emit("小护士笑咪咪地望着俺：\"大哥！神经科这边挂号.\"")
+
+	play_sound("opendoor.wav")
 
 
 func _setup_post_office_window():
@@ -202,6 +215,8 @@ func _setup_post_office_window():
 		# may this happen? I think never.
 		else:
 			self.message_with_diary_window.emit("村长说：\"您是农村年轻人的典范！\"")
+	
+	play_sound("opendoor.wav")
 
 
 func _setup_rental_agency_window():
