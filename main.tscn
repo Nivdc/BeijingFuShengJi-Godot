@@ -605,7 +605,7 @@ size_flags_stretch_ratio = 2.0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "您存多少钱？："
+text = "您取多少钱？："
 
 [node name="LineEdit" type="LineEdit" parent="BankWindow/WithdrawWindow/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
