@@ -127,20 +127,45 @@ func _popup_menu_click(id: int):
 			get_tree().quit()
 
 
+var child_window_queue = []
+var current_child_window = null
+
+
 func _setup_diary_window(message: String):
 	var diary_window_scene = preload("res://scene/diary_window.tscn")
 	var new_diary_window = diary_window_scene.instantiate()
 	new_diary_window.set_text(message)
-	new_diary_window.show()
-	self.add_child(new_diary_window)
+	if current_child_window == null:
+		new_diary_window.show()
+		self.add_child(new_diary_window)
+		current_child_window  = new_diary_window
+		current_child_window.close_requested.connect(_child_window_closed)
+	else:
+		child_window_queue.push_back(new_diary_window)
 
 
 func _setup_news_window(message: String):
 	var news_window_scene = preload("res://scene/news_window.tscn")
 	var new_news_window = news_window_scene.instantiate()
 	new_news_window.set_text(message)
-	new_news_window.show()
-	self.add_child(new_news_window)
+	if current_child_window == null:
+		new_news_window.show()
+		self.add_child(new_news_window)
+		current_child_window  = new_news_window
+		current_child_window.close_requested.connect(_child_window_closed)
+	else:
+		child_window_queue.push_back(new_news_window)
+
+
+func _child_window_closed():
+	if child_window_queue.is_empty():
+		current_child_window = null
+	else:
+		var new_child_window = child_window_queue.pop_front()
+		new_child_window.show()
+		self.add_child(new_child_window)
+		current_child_window  = new_child_window
+		current_child_window.close_requested.connect(_child_window_closed)
 
 
 func _setup_buy_window():
