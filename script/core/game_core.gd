@@ -260,7 +260,7 @@ func move(new_location: String):
 	# 如果不是最后两天，就随机禁用3~1种商品
 	_regenerate_all_goods_status(3) if time_left > 1 else _regenerate_all_goods_status(0)
 	_handle_debts_and_deposits()
-	_random_activate_events()
+	await _random_activate_events()
 	# 在继续之前检查一下玩家是不是死了
 	if player_status["health"] == 0:
 		_onwer.message_with_diary_window.emit("俺倒在街头,身边日记本上写着：\"北京，我将再来!\"")
@@ -272,7 +272,7 @@ func move(new_location: String):
 		_onwer.message_with_diary_window.emit("俺的健康..健康危机..快去医..")
 
 	if player_status["health"] < 85 and time_left > 3:
-		_forced_medical_event()
+		await _forced_medical_event()
 
 	if player_status["debt_amount"] > 100_000:
 		_onwer.message_with_diary_window.emit("俺欠钱太多，村长叫一群老乡揍了俺一顿!")
@@ -478,3 +478,4 @@ func _forced_medical_event():
 	player_status["elapsed_time"] += random_delay_day
 	add_debt_amount(new_debt)
 	add_health(10)
+	await event_ended
