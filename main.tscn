@@ -952,3 +952,4 @@ text = "离开网吧
 "
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+max_polyphony = 5

@@ -201,8 +201,9 @@ func _setup_sell_window():
 
 
 func _move_to(location_name: String):
-	core.move(location_name)
 	play_sound("shutdoor.wav")
+	core.move(location_name)
+
 
 func _setup_bank_window():
 	$BankWindow.set_game_core(core)
