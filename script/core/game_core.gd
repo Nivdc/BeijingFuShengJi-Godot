@@ -1,6 +1,7 @@
 class_name GameCore
 extends RefCounted
 
+signal event_ended
 enum {GAME_RUNNING, GAME_OVER}
 var environment_settings = {}
 var player_status = {}
@@ -9,6 +10,7 @@ var events_list = {}
 var _onwer = null
 var _game_state = null
 var _event_type_list = []
+# var _event_queue = []
 
 # 下面这个console的实现无法调用内部的变量，可能是我没有找到正确的用法，
 # 姑且将其保留，后面再研究下，我先看看 Expression 能不能做到类似的功能。
@@ -411,6 +413,8 @@ func _game_over():
 	_onwer.message_with_diary_window.emit("游戏已结束")
 
 func _random_activate_events():
+	var event_queue = []
+
 	for event_type in _event_type_list:
 		var current_event_group = events_list.filter(func(event): return event["type"] == event_type)
 		# 根据事件类型划分事件组，每个事件组都会检测一次是否发生某一事件。
@@ -423,23 +427,29 @@ func _random_activate_events():
 				if event.has("requires_active_good"):
 					if _check_good_is_active(event["requires_active_good"]) != true:
 						continue
-				# 接下来执行事件，先获取事件的提示信息
-				var event_message = event["message"]
-				# 执行事件指令，进一步合成提示信息。
-				for command in event["effect"].split("\n"):
-					var result = console(command)
-					if typeof(result) == TYPE_STRING:
-						event_message += result
-				# 提示事件信息
-				if event_type == "normal":
-					_onwer.message_with_news_window.emit(event_message)
-				else:
-					_onwer.message_with_diary_window.emit(event_message)
-				#播放音效
-				if event.has("sound"):
-					pass
+				# 将要执行的事件推入队列中
+				event_queue.push_back(event)
 				# 进入下一个事件组
 				break
+
+	for event in event_queue:
+		# 接下来执行事件，先获取事件的提示信息
+		var event_message = event["message"]
+		# 执行事件指令，进一步合成提示信息。
+		for command in event["effect"].split("\n"):
+			var result = console(command)
+			if typeof(result) == TYPE_STRING:
+				event_message += result
+		# 提示事件信息
+		if event["type"] == "normal":
+			_onwer.message_with_news_window.emit(event_message)
+		else:
+			_onwer.message_with_diary_window.emit(event_message)
+		#播放音效
+		if event.has("sound"):
+			_onwer.play_sound(event["sound"])
+		await event_ended
+
 
 func _forced_medical_event():
 	var location_collection = [

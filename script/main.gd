@@ -6,7 +6,8 @@ signal game_core_updated
 signal message_with_diary_window(message: String)
 signal message_with_news_window(message: String)
 var core = null
-
+var child_window_queue = []
+var current_child_window = null
 
 func _ready():
 	randomize()#初始化随机数种子
@@ -32,6 +33,7 @@ func _ready():
 
 	update_gui()
 	_init_buttons()
+
 
 func update_gui():
 	_update_trees()
@@ -127,10 +129,6 @@ func _popup_menu_click(id: int):
 			get_tree().quit()
 
 
-var child_window_queue = []
-var current_child_window = null
-
-
 func _setup_diary_window(message: String):
 	var diary_window_scene = preload("res://scene/diary_window.tscn")
 	var new_diary_window = diary_window_scene.instantiate()
@@ -166,6 +164,8 @@ func _child_window_closed():
 		self.add_child(new_child_window)
 		current_child_window  = new_child_window
 		current_child_window.close_requested.connect(_child_window_closed)
+
+	core.event_ended.emit()
 
 
 func _setup_buy_window():
