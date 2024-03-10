@@ -30,7 +30,7 @@ func _ready():
 
 	# core.add_cash(9999999)
 	# core.reduce_health(10)
-	core.add_debt_amount(999999)
+	# core.add_debt_amount(999999)
 
 	update_gui()
 	_init_buttons()
