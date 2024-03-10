@@ -32,6 +32,7 @@ func _confirm():
 		var selling_quantity = line_edit.get_text() as int
 		if selling_quantity <= selling_limit:
 			get_parent().core.sell_good(taget_good_name, selling_quantity)
+			get_parent().play_sound("money.wav")
 			self.emit_signal("close_requested")
 		else:
 			print("请输入上限内的数量")

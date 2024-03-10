@@ -263,8 +263,8 @@ func move(new_location: String):
 	_random_activate_events()
 	# 在继续之前检查一下玩家是不是死了
 	if player_status["health"] == 0:
-		# 播放音效
 		_onwer.message_with_diary_window.emit("俺倒在街头,身边日记本上写着：\"北京，我将再来!\"")
+		_onwer.play_sound("death.wav")
 		_game_over()
 		return
 
@@ -276,6 +276,7 @@ func move(new_location: String):
 
 	if player_status["debt_amount"] > 100_000:
 		_onwer.message_with_diary_window.emit("俺欠钱太多，村长叫一群老乡揍了俺一顿!")
+		_onwer.play_sound("kill.wav")
 		reduce_health(30)
 
 	if time_left == 1:
