@@ -258,7 +258,9 @@ func move(new_location: String):
 	# 计算剩余时间
 	var time_left = environment_settings["time_limit"] - player_status["elapsed_time"]
 	# 如果不是最后两天，就随机禁用3~1种商品
-	_regenerate_all_goods_status(3) if time_left > 1 else _regenerate_all_goods_status(0)
+	if time_left > 1:_regenerate_all_goods_status(3) 
+	else: _regenerate_all_goods_status(0)
+	
 	_handle_debts_and_deposits()
 	await _random_activate_events()
 	# 在继续之前检查一下玩家是不是死了
@@ -302,7 +304,7 @@ func restart_game():
 	_init(_onwer)
 
 func _init(onwer: Node):
-	assert(_game_state != GAME_RUNNING, "Error: call _init function while game is running.")
+	# assert(_game_state != GAME_RUNNING, "Error: call _init function while game is running.")
 	_onwer = onwer
 	_init_load_data()
 	_init_global_variables()

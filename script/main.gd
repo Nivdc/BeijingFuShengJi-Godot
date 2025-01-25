@@ -1,7 +1,6 @@
 extends Node
 
 signal game_core_readied
-signal game_started
 signal game_core_updated
 signal message_with_diary_window(message: String)
 signal message_with_news_window(message: String)
@@ -12,21 +11,19 @@ var current_child_window = null
 func _ready():
 	randomize()#初始化随机数种子
 
-	self.connect("game_core_readied",func():$IntroWindow.emit_signal("game_core_readied"))
 	core = preload("res://script/core/game_core.gd").new(self)
-
-	# 搞了半天你跟我说主窗口不能隐藏？...行，我忍了，这个也不是很重要吧。
-	# self.get_window().hide()
-	# self.connect("game_started",func():self.get_window().show())
-
-	# 那就暂时隐藏主窗口里的内容，等待游戏开始
-	$MainContainer.hide()
-	self.connect("game_started",func():$MainContainer.show())
 
 	self.connect("game_core_updated", self.update_gui)
 
 	self.connect("message_with_diary_window", self._setup_diary_window)
 	self.connect("message_with_news_window", self._setup_news_window)
+
+	$MarginContainer/VBoxContainer/Button.set_disabled(false)
+	$MarginContainer/VBoxContainer/Button.pressed.connect(
+		func ():
+		$MarginContainer.hide()
+		$MainContainer.show()
+	)
 
 	# core.add_cash(9999999)
 	# core.reduce_health(10)
@@ -126,6 +123,7 @@ func _popup_menu_click(id: int):
 	match id:
 		0:
 			core.restart_game()
+			update_gui()
 		1:
 			get_tree().quit()
 

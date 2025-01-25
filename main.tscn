@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
-[ext_resource type="PackedScene" uid="uid://bjsqakdst865j" path="res://scene/introduction_window.tscn" id="3_ricqv"]
+[ext_resource type="Texture2D" uid="uid://ddti4ktdsxw6p" path="res://resource/image/0000-0.bmp" id="3_lmait"]
 [ext_resource type="Script" path="res://script/buy_window.gd" id="4_3ikfk"]
 [ext_resource type="Script" path="res://script/sell_window.gd" id="5_bf6qp"]
 [ext_resource type="Script" path="res://script/hospital_window.gd" id="6_60gtm"]
@@ -17,7 +17,73 @@
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
 
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_c1l05")
+texture = ExtResource("3_lmait")
+expand_mode = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_c1l05")
+text = "“北京浮生记”的故事"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Introduction" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("1_c1l05")
+text = "    您扮演一位从外地到北京谋生的青年。一开始，您只有2000元钱并且还欠村长（一个流氓头子）5500元债务。这些债务每天的利息高达10%.如果不及时还清，村长会叫在北京的老乡们来扁您，您可能牺牲在北京街头。您决定在北京各地铁口黑市倒卖各种物品来发财致富，不仅还掉债务，而且还要荣登北京富人排行榜。
+
+    您只能在北京呆40天，每次奔走一个黑市算一天。一开始，您租的房子只能放100个东西。您会在北京遭遇到各种事件，您需要与流氓、小偷、凶手、贪官、骗子等斗智斗勇，还需要在北京恶劣的自然环境下设法生存下来。
+
+    您将体念在北京卖盗版VCD和走私汽车的刺激以及我们这个时代才有的搞笑事件。"
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="Status" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_c1l05")
+text = "游戏初始化完毕，准备进入北京..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme = ExtResource("1_c1l05")
+disabled = true
+text = "开始游戏 >>"
+
 [node name="MainContainer" type="VBoxContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,7 +101,6 @@ layout_mode = 2
 size = Vector2i(130, 112)
 item_count = 2
 item_0/text = "新游戏"
-item_0/id = 0
 item_1/text = "退出"
 item_1/id = 1
 
@@ -323,10 +388,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "网吧"
 
-[node name="IntroWindow" parent="." instance=ExtResource("3_ricqv")]
-transient = false
-exclusive = false
-
 [node name="BuyWindow" type="Window" parent="."]
 title = "买多少？"
 initial_position = 2
@@ -351,6 +412,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 
 [node name="Label" type="Label" parent="BuyWindow/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -417,6 +479,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 
 [node name="Label" type="Label" parent="SellWindow/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -663,6 +726,7 @@ texture = ExtResource("7_8u22i")
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="HospitalWindow/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -728,6 +792,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 
 [node name="Label" type="Label" parent="PostOfficeWindow/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
@@ -795,6 +860,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 
 [node name="Label" type="Label" parent="RentalAgencyWindow/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)

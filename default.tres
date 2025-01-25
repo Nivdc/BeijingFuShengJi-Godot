@@ -34,8 +34,6 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 border_blend = true
-shadow_size = 1
-shadow_offset = Vector2(1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xx0hp"]
 content_margin_left = 20.0
@@ -154,7 +152,7 @@ Button/styles/hover = SubResource("StyleBoxFlat_xcjun")
 Button/styles/normal = SubResource("StyleBoxFlat_xcjun")
 Button/styles/pressed = SubResource("StyleBoxFlat_7chra")
 Label/colors/font_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
-Label/constants/line_spacing = -10
+Label/constants/line_spacing = -5
 Label/font_sizes/font_size = 19
 LineEdit/colors/caret_color = Color(0, 0, 0, 1)
 LineEdit/colors/font_color = Color(0, 0, 0, 1)
