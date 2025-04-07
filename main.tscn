@@ -1,18 +1,18 @@
 [gd_scene load_steps=14 format=3 uid="uid://boyaqhh06nylq"]
 
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="1_c1l05"]
-[ext_resource type="Script" path="res://script/main.gd" id="1_d55pr"]
+[ext_resource type="Script" uid="uid://cgp20e0101q1l" path="res://script/main.gd" id="1_d55pr"]
 [ext_resource type="Texture2D" uid="uid://ddti4ktdsxw6p" path="res://resource/image/0000-0.bmp" id="3_lmait"]
-[ext_resource type="Script" path="res://script/buy_window.gd" id="4_3ikfk"]
-[ext_resource type="Script" path="res://script/sell_window.gd" id="5_bf6qp"]
-[ext_resource type="Script" path="res://script/hospital_window.gd" id="6_60gtm"]
-[ext_resource type="Script" path="res://script/bank_window.gd" id="6_noup3"]
-[ext_resource type="Script" path="res://script/cybercafe_window.gd" id="7_03d7o"]
+[ext_resource type="Script" uid="uid://bii3lcj87abb8" path="res://script/buy_window.gd" id="4_3ikfk"]
+[ext_resource type="Script" uid="uid://cpfs2rhkfg1s5" path="res://script/sell_window.gd" id="5_bf6qp"]
+[ext_resource type="Script" uid="uid://cghqdttjkmyyp" path="res://script/hospital_window.gd" id="6_60gtm"]
+[ext_resource type="Script" uid="uid://8el58fdvosc4" path="res://script/bank_window.gd" id="6_noup3"]
+[ext_resource type="Script" uid="uid://dn8u0cryswteu" path="res://script/cybercafe_window.gd" id="7_03d7o"]
 [ext_resource type="Texture2D" uid="uid://dxweqq6ly4bbd" path="res://resource/image/icon1.bmp" id="7_8u22i"]
-[ext_resource type="Script" path="res://script/rental_agency_window.gd" id="7_ebvtf"]
-[ext_resource type="Script" path="res://script/deposit_window.gd" id="7_jw23d"]
-[ext_resource type="Script" path="res://script/post_office_window.gd" id="7_osage"]
-[ext_resource type="Script" path="res://script/withdraw_window.gd" id="8_ngpqi"]
+[ext_resource type="Script" uid="uid://y8t5dm05u5m3" path="res://script/rental_agency_window.gd" id="7_ebvtf"]
+[ext_resource type="Script" uid="uid://c6dmm88rldk5c" path="res://script/deposit_window.gd" id="7_jw23d"]
+[ext_resource type="Script" uid="uid://b8th5enp51ekb" path="res://script/post_office_window.gd" id="7_osage"]
+[ext_resource type="Script" uid="uid://by1gqm68au20h" path="res://script/withdraw_window.gd" id="8_ngpqi"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_d55pr")
@@ -101,6 +101,7 @@ layout_mode = 2
 size = Vector2i(130, 112)
 item_count = 2
 item_0/text = "新游戏"
+item_0/id = 0
 item_1/text = "退出"
 item_1/id = 1
 
@@ -546,6 +547,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 
 [node name="Label" type="Label" parent="BankWindow/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dujmbdipj8rgx"]
 
-[ext_resource type="Script" path="res://script/diary_window.gd" id="1_bg4p5"]
+[ext_resource type="Script" uid="uid://ln76xdcxvu14" path="res://script/diary_window.gd" id="1_bg4p5"]
 [ext_resource type="Theme" uid="uid://cicypc1i7ogw4" path="res://default.tres" id="2_yxahr"]
 [ext_resource type="Texture2D" uid="uid://bd06hy7tyvnb0" path="res://resource/image/riji.bmp" id="3_tc2mf"]
 
